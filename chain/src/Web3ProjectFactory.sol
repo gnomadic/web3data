@@ -3,6 +3,7 @@ pragma solidity ^0.8.24;
 
 import "@openzeppelin/contracts/proxy/Clones.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import {IWeb3Project} from "./IWeb3Project.sol";
 
 contract Web3ProjectFactory is Ownable {
     using Clones for address;
