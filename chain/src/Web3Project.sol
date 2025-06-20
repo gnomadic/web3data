@@ -13,9 +13,7 @@ contract Web3Project is IWeb3Project {
     address public owner;
     Web3MetricsSnapshot[] public snapshots;
 
-    constructor(address _owner) {
-        owner = _owner;
-    }
+    constructor() {}
 
     function initialize(address creator) external {
         require(owner == address(0), "Already initialized");

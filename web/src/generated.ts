@@ -13,6 +13,25 @@ import {
 } from 'wagmi/codegen'
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ISupplyToken
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const iSupplyTokenAbi = [
+  {
+    type: 'function',
+    inputs: [
+      { name: 'name', internalType: 'string', type: 'string' },
+      { name: 'symbol', internalType: 'string', type: 'string' },
+      { name: 'systemController', internalType: 'address', type: 'address' },
+      { name: 'scenario', internalType: 'address', type: 'address' },
+    ],
+    name: 'initialize',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IWeb3Project
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -31,11 +50,7 @@ export const iWeb3ProjectAbi = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const web3ProjectAbi = [
-  {
-    type: 'constructor',
-    inputs: [{ name: '_owner', internalType: 'address', type: 'address' }],
-    stateMutability: 'nonpayable',
-  },
+  { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
   {
     type: 'function',
     inputs: [{ name: 'index', internalType: 'uint256', type: 'uint256' }],
@@ -136,6 +151,13 @@ export const web3ProjectFactoryAbi = [
     name: 'createProject',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
     stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getProjects',
+    outputs: [{ name: '', internalType: 'address[]', type: 'address[]' }],
+    stateMutability: 'view',
   },
   {
     type: 'function',
@@ -405,6 +427,15 @@ export const useWatchWeb3ProjectSnapshotUploadedEvent =
 export const useReadWeb3ProjectFactory = /*#__PURE__*/ createUseReadContract({
   abi: web3ProjectFactoryAbi,
 })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link web3ProjectFactoryAbi}__ and `functionName` set to `"getProjects"`
+ */
+export const useReadWeb3ProjectFactoryGetProjects =
+  /*#__PURE__*/ createUseReadContract({
+    abi: web3ProjectFactoryAbi,
+    functionName: 'getProjects',
+  })
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link web3ProjectFactoryAbi}__ and `functionName` set to `"implementation"`
@@ -698,6 +729,15 @@ export const watchWeb3ProjectSnapshotUploadedEvent =
 export const readWeb3ProjectFactory = /*#__PURE__*/ createReadContract({
   abi: web3ProjectFactoryAbi,
 })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link web3ProjectFactoryAbi}__ and `functionName` set to `"getProjects"`
+ */
+export const readWeb3ProjectFactoryGetProjects =
+  /*#__PURE__*/ createReadContract({
+    abi: web3ProjectFactoryAbi,
+    functionName: 'getProjects',
+  })
 
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link web3ProjectFactoryAbi}__ and `functionName` set to `"implementation"`

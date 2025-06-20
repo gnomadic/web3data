@@ -1,3 +1,19 @@
+import { Address, Chain, Transport } from "viem";
+
+export type Web3Project = {
+    projectAddress: Address;
+    // ownerAddress: Address;
+    // name: string;
+}
+
+export type Deployment = {
+  Web3ProjectFactory: Address;
+  scan?: string | undefined;
+  viemChain: Chain;
+  viemTransport: Transport;
+}
+
+
 export interface Metric {
     metricType: MetricType;
     value: number;

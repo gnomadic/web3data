@@ -29,5 +29,9 @@ contract Web3ProjectFactory is Ownable {
         return proxy;
     }
 
+    function getProjects() external view returns (address[] memory) {
+        return projects;
+    }
+    
     event ProjectCreated(address indexed owner);
 }
