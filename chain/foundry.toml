@@ -9,4 +9,12 @@ dotenv = true
 access = "write"
 path = "deployments"
 
+
+[rpc_endpoints]
+base_sepolia = "${BASE_SEPOLIA_RPC}"
+ 
+[etherscan]
+base_sepolia = { key = "${BASESCAN_API_KEY}" }
+
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
+

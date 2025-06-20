@@ -3,8 +3,8 @@ import { baseSepolia, localhost, sepolia } from 'viem/chains';
 import { Deployment } from './types/types';
 
 export const Deployments: { [key: string]: Deployment } = {
-    basesep: {
-        Web3ProjectFactory: '0x0',
+    basesepolia: {
+        Web3ProjectFactory: '0x32b60a177838c7c5FEDd5b633890e61c7A731953',
         scan: "https://sepolia.basescan.org/address/",
         viemChain: baseSepolia,
         viemTransport: http(`https://base-sepolia.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`),

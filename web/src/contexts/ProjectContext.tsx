@@ -19,8 +19,8 @@ export const ProjectProvider: React.FC<{ children: ReactNode }> = ({ children })
     
     const { deploy } = useDeployment();
     const {data: projects, isLoading, isError, error, refetch: updateProjects} = useReadWeb3ProjectFactoryGetProjects({
-        // address: deploy.Web3ProjectFactory,
-        address: "0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496"
+        address: deploy.Web3ProjectFactory,
+        // address: "0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496"
     });
     
     return (

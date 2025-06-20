@@ -2,51 +2,52 @@
 
 import { useProjects } from "@/contexts/ProjectContext";
 import { Card, CardHeader, CardTitle, CardDescription } from "../ui/card";
+import { Button } from "../ui/button";
+import { CreateProject } from "./CreateProject";
+import { useState } from "react";
+import ProjectCardList from "./ProjectCardList";
+import { useWriteWeb3ProjectFactoryCreateProject } from "@/generated";
+import { useWaitForTransactionReceipt } from "wagmi";
+import { useDeployment } from "@/hooks/useDeployment";
 
 export default function ProjectList() {
+//   const { projects, createProject, addContract } = useProjects();
+  const [modalOpen, setModalOpen] = useState(false);
 
-    const { projects } = useProjects();
+  const { deploy } = useDeployment();
 
+    const { data: hash, error: writeError, writeContract } = useWriteWeb3ProjectFactoryCreateProject();
+  const { isLoading, isSuccess, data } = useWaitForTransactionReceipt({ hash })
 
+  
+
+        //   onClick={() => {
+        //           console.log("Accept Assignment button clicked");
+        //           writeContract({ address: deploy.Planet, args: [address!] });
+        //         }}
+
+  function handleCreateProject(name: string, description: string) {
+    // const newProject = createProject(name, description);
+    setModalOpen(false);
+    writeContract({ address: deploy.Web3ProjectFactory, args: [] });
+    // navigate(`/project/${newProject.id}`);
+  }
+    
     return (
         <section>
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="text-3xl font-bold">Your Projects</h1>
-                <button
-                    // onClick={onOpenCreateProject}
-                    className="bg-accent hover:bg-accent/70 text-accent-foreground px-4 py-2 rounded-lg font-semibold transition"
-                >
-                    + New Project
-                </button>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <Card
-                    key={1}
-                    className="hover:border-primary cursor-pointer transition"
-                // onClick={() => navigate(`/project/${project.id}`)}
-                >
-                    <CardHeader>
-                        <CardTitle>ok</CardTitle>
-                        <CardDescription>
-                            {/* {project.description || "No description provided."} */}
-                        </CardDescription>
-                    </CardHeader>
-                </Card>
-                {projects?.map((project, index) => (
-                    <Card
-                        key={index}
-                        className="hover:border-primary cursor-pointer transition"
-                    // onClick={() => navigate(`/project/${project.id}`)}
-                    >
-                        <CardHeader>
-                            <CardTitle>{project}</CardTitle>
-                            <CardDescription>
-                                {/* {project.description || "No description provided."} */}
-                            </CardDescription>
-                        </CardHeader>
-                    </Card>
-                ))}
-            </div>
+            <div>hash: {hash}</div>
+            <div>writeError: {JSON.stringify(writeError)}</div>
+            <div>isLoading: {JSON.stringify(isLoading)}</div>
+            <div>isSuccess: {JSON.stringify(isSuccess)}</div>
+            <ProjectCardList
+                openCreateProject={() => setModalOpen(true)}
+            />
+            <CreateProject
+                open={modalOpen}
+                onOpenChange={setModalOpen}
+                onCreate={handleCreateProject}
+            
+            />
         </section>
 
     );

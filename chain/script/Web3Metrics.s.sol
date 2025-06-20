@@ -1,8 +1,7 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
 import {Script, console} from "forge-std/Script.sol";
-import {Counter} from "../src/Counter.sol";
 import {Web3ProjectFactory} from "../src/Web3ProjectFactory.sol";
 import {Web3Project} from "../src/Web3Project.sol";
 
@@ -17,7 +16,10 @@ contract Web3MetricsScript is Script {
 
         web3Project = new Web3Project();
 
-        web3ProjectFactory = new Web3ProjectFactory(address(web3Project));
+        web3ProjectFactory = new Web3ProjectFactory(
+            address(web3Project),
+            0x4588a3747bF53b3d1fB94123cC207ee5cfE26170
+        );
 
         // web3ProjectFactory.createProject();
 
@@ -41,9 +43,14 @@ contract Web3MetricsScript is Script {
             "Web3ProjectFactory",
             vm.toString(address(web3ProjectFactory))
         );
+        string memory deployed = vm.serializeString(
+            object1,
+            chainIdStr,
+            web3factory
+        );
 
-        console.log("JSON output: %s", web3factory);
+        console.log("JSON output: %s", deployed);
 
-        vm.writeJson(web3factory, outputPath);
+        vm.writeJson(deployed, outputPath);
     }
 }

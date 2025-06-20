@@ -17,11 +17,14 @@ export function Header({
 }: Props) {
   return (
     <header className="sticky top-0 z-30 w-full bg-background/90 backdrop-blur border-b border-border shadow-sm">
-      <div className="flex items-center justify-between py-4 px-8 max-w-7xl mx-auto">
+      <div className="flex items-center justify-between py-4 px-2 md:px-8 max-w-7xl mx-auto">
         {/* App logo/title */}
         <Link href="/" className="flex items-center gap-2">
           <span className="text-2xl font-bold tracking-tight text-primary font-title">
-            web3data.website
+            web3data
+            <span className="hidden md:inline">
+            .website
+            </span>
           </span>
         </Link>
         <div className="flex items-center gap-4">

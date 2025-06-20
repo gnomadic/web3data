@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@radix-ui/react-slot':
+    specifier: ^1.2.3
+    version: 1.2.3(@types/react@19.1.8)(react@18.3.1)
   '@rainbow-me/rainbowkit':
     specifier: ^2.2.8
     version: 2.2.8(@tanstack/react-query@5.80.10)(@types/react@19.1.8)(react-dom@18.3.1)(react@18.3.1)(typescript@5.8.3)(viem@2.31.3)(wagmi@2.15.6)
@@ -26,6 +29,9 @@ dependencies:
   next:
     specifier: 15.3.4
     version: 15.3.4(react-dom@18.3.1)(react@18.3.1)
+  pinata:
+    specifier: ^2.4.8
+    version: 2.4.8(react-dom@18.3.1)(react@18.3.1)
   pino-pretty:
     specifier: ^13.0.0
     version: 13.0.0
@@ -1157,6 +1163,33 @@ packages:
   /@paulmillr/qr@0.2.1:
     resolution: {integrity: sha512-IHnV6A+zxU7XwmKFinmYjUcwlyK9+xkG3/s9KcQhI9BjQKycrJ1JRO+FbNYPwZiPKW3je/DR0k7w8/gLa5eaxQ==}
     deprecated: 'The package is now available as "qr": npm install qr'
+    dev: false
+
+  /@radix-ui/react-compose-refs@1.1.2(@types/react@19.1.8)(react@18.3.1):
+    resolution: {integrity: sha512-z4eqJvfiNnFMHIIvXP3CY57y2WJs5g2v3X0zm9mEJkrkNv4rDxu+sg9Jh8EkXyeqBkB7SOcboo9dMVqhyrACIg==}
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@types/react': 19.1.8
+      react: 18.3.1
+    dev: false
+
+  /@radix-ui/react-slot@1.2.3(@types/react@19.1.8)(react@18.3.1):
+    resolution: {integrity: sha512-aeNmHnBxbi2St0au6VBVC7JXFlhLlOnvIIlePNniyUNAClzmtAUEY8/pBiK3iHjufOlwA+c20/8jngo7xcrg8A==}
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@radix-ui/react-compose-refs': 1.1.2(@types/react@19.1.8)(react@18.3.1)
+      '@types/react': 19.1.8
+      react: 18.3.1
     dev: false
 
   /@rainbow-me/rainbowkit@2.2.8(@tanstack/react-query@5.80.10)(@types/react@19.1.8)(react-dom@18.3.1)(react@18.3.1)(typescript@5.8.3)(viem@2.31.3)(wagmi@2.15.6):
@@ -5376,6 +5409,22 @@ packages:
   /pify@5.0.0:
     resolution: {integrity: sha512-eW/gHNMlxdSP6dmG6uJip6FXN0EQBwm2clYYd8Wul42Cwu/DK8HEftzsapcNdYe2MfLiIwZqsDk2RDEsTE79hA==}
     engines: {node: '>=10'}
+    dev: false
+
+  /pinata@2.4.8(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-5z2d9pe6q0fO+8GuH5ofy5uxZQtknFUD2K1C1BQ4sTrUKLmW3h0bRCSKWu9d8EQEjDp+2s27s4BXG83lBfW4Ig==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
     dev: false
 
   /pino-abstract-transport@0.5.0:
