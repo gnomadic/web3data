@@ -13,6 +13,44 @@ import {
 } from 'wagmi/codegen'
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// IWeb3Project
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const iWeb3ProjectAbi = [
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getOwner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'creator', internalType: 'address', type: 'address' },
+      { name: 'factory', internalType: 'address', type: 'address' },
+    ],
+    name: 'initialize',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [
+      { name: '_owner', internalType: 'address', type: 'address' },
+      { name: '_factory', internalType: 'address', type: 'address' },
+      { name: 'metadataCID', internalType: 'string', type: 'string' },
+      { name: 'timestamp', internalType: 'uint256', type: 'uint256' },
+      { name: 'signature', internalType: 'bytes', type: 'bytes' },
+      { name: 'input', internalType: 'string', type: 'string' },
+    ],
+    name: 'initializeWithMetadata',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+] as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IWeb3ProjectFactory
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -22,6 +60,25 @@ export const iWeb3ProjectFactoryAbi = [
     inputs: [],
     name: 'getVerifier',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'payload',
+        internalType: 'struct MetadataPayload',
+        type: 'tuple',
+        components: [
+          { name: 'verifiableData', internalType: 'string', type: 'string' },
+          { name: 'owner', internalType: 'address', type: 'address' },
+          { name: 'timestamp', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+      { name: 'signature', internalType: 'bytes', type: 'bytes' },
+    ],
+    name: 'verifyMetadata',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
     stateMutability: 'view',
   },
 ] as const
@@ -42,7 +99,7 @@ export const web3ProjectAbi = [
         internalType: 'struct Web3ProjectSnapshot',
         type: 'tuple',
         components: [
-          { name: 'metadataCID', internalType: 'bytes32', type: 'bytes32' },
+          { name: 'metadataCID', internalType: 'string', type: 'string' },
           { name: 'timestamp', internalType: 'uint256', type: 'uint256' },
           { name: 'signature', internalType: 'bytes', type: 'bytes' },
         ],
@@ -60,7 +117,7 @@ export const web3ProjectAbi = [
         internalType: 'struct Web3MetricsSnapshot',
         type: 'tuple',
         components: [
-          { name: 'metricsCID', internalType: 'bytes32', type: 'bytes32' },
+          { name: 'metricsCID', internalType: 'string', type: 'string' },
           { name: 'timestamp', internalType: 'uint256', type: 'uint256' },
           { name: 'signature', internalType: 'bytes', type: 'bytes' },
         ],
@@ -70,14 +127,10 @@ export const web3ProjectAbi = [
   },
   {
     type: 'function',
-    inputs: [
-      { name: 'verifiableData', internalType: 'string', type: 'string' },
-      { name: 'owner', internalType: 'address', type: 'address' },
-      { name: 'timestamp', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'hashPayload',
-    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
-    stateMutability: 'pure',
+    inputs: [],
+    name: 'getOwner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
     type: 'function',
@@ -94,7 +147,7 @@ export const web3ProjectAbi = [
     inputs: [
       { name: '_owner', internalType: 'address', type: 'address' },
       { name: '_factory', internalType: 'address', type: 'address' },
-      { name: 'metadataCID', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'metadataCID', internalType: 'string', type: 'string' },
       { name: 'timestamp', internalType: 'uint256', type: 'uint256' },
       { name: 'signature', internalType: 'bytes', type: 'bytes' },
       { name: 'input', internalType: 'string', type: 'string' },
@@ -108,7 +161,7 @@ export const web3ProjectAbi = [
     inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     name: 'metricsSnapshots',
     outputs: [
-      { name: 'metricsCID', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'metricsCID', internalType: 'string', type: 'string' },
       { name: 'timestamp', internalType: 'uint256', type: 'uint256' },
       { name: 'signature', internalType: 'bytes', type: 'bytes' },
     ],
@@ -126,7 +179,7 @@ export const web3ProjectAbi = [
     inputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     name: 'projectSnapshots',
     outputs: [
-      { name: 'metadataCID', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'metadataCID', internalType: 'string', type: 'string' },
       { name: 'timestamp', internalType: 'uint256', type: 'uint256' },
       { name: 'signature', internalType: 'bytes', type: 'bytes' },
     ],
@@ -135,17 +188,7 @@ export const web3ProjectAbi = [
   {
     type: 'function',
     inputs: [
-      { name: 'data', internalType: 'bytes32', type: 'bytes32' },
-      { name: 'signature', internalType: 'bytes', type: 'bytes' },
-    ],
-    name: 'recoverSignerAddress',
-    outputs: [{ name: '', internalType: 'address', type: 'address' }],
-    stateMutability: 'pure',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'metadataCID', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'metadataCID', internalType: 'string', type: 'string' },
       { name: 'timestamp', internalType: 'uint256', type: 'uint256' },
       { name: 'signature', internalType: 'bytes', type: 'bytes' },
       { name: 'input', internalType: 'string', type: 'string' },
@@ -155,36 +198,13 @@ export const web3ProjectAbi = [
     stateMutability: 'nonpayable',
   },
   {
-    type: 'function',
-    inputs: [
-      { name: 'metricsCID', internalType: 'bytes32', type: 'bytes32' },
-      { name: 'timestamp', internalType: 'uint256', type: 'uint256' },
-      { name: 'signature', internalType: 'bytes', type: 'bytes' },
-      { name: 'input', internalType: 'string', type: 'string' },
-    ],
-    name: 'updateMetrics',
-    outputs: [],
-    stateMutability: 'nonpayable',
-  },
-  {
-    type: 'function',
-    inputs: [
-      { name: 'input', internalType: 'string', type: 'string' },
-      { name: 'signature', internalType: 'bytes', type: 'bytes' },
-      { name: 'timestamp', internalType: 'uint256', type: 'uint256' },
-    ],
-    name: 'verify',
-    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
-    stateMutability: 'view',
-  },
-  {
     type: 'event',
     anonymous: false,
     inputs: [
       {
         name: 'metadataID',
-        internalType: 'bytes32',
-        type: 'bytes32',
+        internalType: 'string',
+        type: 'string',
         indexed: false,
       },
       {
@@ -202,8 +222,8 @@ export const web3ProjectAbi = [
     inputs: [
       {
         name: 'metricsID',
-        internalType: 'bytes32',
-        type: 'bytes32',
+        internalType: 'string',
+        type: 'string',
         indexed: false,
       },
       {
@@ -215,19 +235,6 @@ export const web3ProjectAbi = [
     ],
     name: 'MetricsUpdated',
   },
-  { type: 'error', inputs: [], name: 'ECDSAInvalidSignature' },
-  {
-    type: 'error',
-    inputs: [{ name: 'length', internalType: 'uint256', type: 'uint256' }],
-    name: 'ECDSAInvalidSignatureLength',
-  },
-  {
-    type: 'error',
-    inputs: [{ name: 's', internalType: 'bytes32', type: 'bytes32' }],
-    name: 'ECDSAInvalidSignatureS',
-  },
-  { type: 'error', inputs: [], name: 'NOT_VERIFIED' },
-  { type: 'error', inputs: [], name: 'NO_DATA' },
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -245,6 +252,25 @@ export const web3ProjectFactoryAbi = [
   },
   {
     type: 'function',
+    inputs: [
+      { name: 'payloadType', internalType: 'bytes', type: 'bytes' },
+      {
+        name: 'payload',
+        internalType: 'struct MetadataPayload',
+        type: 'tuple',
+        components: [
+          { name: 'verifiableData', internalType: 'string', type: 'string' },
+          { name: 'owner', internalType: 'address', type: 'address' },
+          { name: 'timestamp', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+    ],
+    name: 'createDigest',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
     inputs: [],
     name: 'createProject',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
@@ -253,7 +279,7 @@ export const web3ProjectFactoryAbi = [
   {
     type: 'function',
     inputs: [
-      { name: 'metadataCID', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'metadataCID', internalType: 'string', type: 'string' },
       { name: 'timestamp', internalType: 'uint256', type: 'uint256' },
       { name: 'signature', internalType: 'bytes', type: 'bytes' },
       { name: 'input', internalType: 'string', type: 'string' },
@@ -261,6 +287,21 @@ export const web3ProjectFactoryAbi = [
     name: 'createProjectWithMetadata',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
     stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [],
+    name: 'eip712Domain',
+    outputs: [
+      { name: 'fields', internalType: 'bytes1', type: 'bytes1' },
+      { name: 'name', internalType: 'string', type: 'string' },
+      { name: 'version', internalType: 'string', type: 'string' },
+      { name: 'chainId', internalType: 'uint256', type: 'uint256' },
+      { name: 'verifyingContract', internalType: 'address', type: 'address' },
+      { name: 'salt', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'extensions', internalType: 'uint256[]', type: 'uint256[]' },
+    ],
+    stateMutability: 'view',
   },
   {
     type: 'function',
@@ -299,6 +340,25 @@ export const web3ProjectFactoryAbi = [
   },
   {
     type: 'function',
+    inputs: [
+      {
+        name: 'payload',
+        internalType: 'struct MetadataPayload',
+        type: 'tuple',
+        components: [
+          { name: 'verifiableData', internalType: 'string', type: 'string' },
+          { name: 'owner', internalType: 'address', type: 'address' },
+          { name: 'timestamp', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+      { name: 'signature', internalType: 'bytes', type: 'bytes' },
+    ],
+    name: 'recoverSigner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
     inputs: [],
     name: 'renounceOwnership',
     outputs: [],
@@ -318,6 +378,26 @@ export const web3ProjectFactoryAbi = [
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
     stateMutability: 'view',
   },
+  {
+    type: 'function',
+    inputs: [
+      {
+        name: 'payload',
+        internalType: 'struct MetadataPayload',
+        type: 'tuple',
+        components: [
+          { name: 'verifiableData', internalType: 'string', type: 'string' },
+          { name: 'owner', internalType: 'address', type: 'address' },
+          { name: 'timestamp', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+      { name: 'signature', internalType: 'bytes', type: 'bytes' },
+    ],
+    name: 'verifyMetadata',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+    stateMutability: 'view',
+  },
+  { type: 'event', anonymous: false, inputs: [], name: 'EIP712DomainChanged' },
   {
     type: 'event',
     anonymous: false,
@@ -350,6 +430,17 @@ export const web3ProjectFactoryAbi = [
     ],
     name: 'ProjectCreated',
   },
+  { type: 'error', inputs: [], name: 'ECDSAInvalidSignature' },
+  {
+    type: 'error',
+    inputs: [{ name: 'length', internalType: 'uint256', type: 'uint256' }],
+    name: 'ECDSAInvalidSignatureLength',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 's', internalType: 'bytes32', type: 'bytes32' }],
+    name: 'ECDSAInvalidSignatureS',
+  },
   { type: 'error', inputs: [], name: 'FailedDeployment' },
   {
     type: 'error',
@@ -359,6 +450,7 @@ export const web3ProjectFactoryAbi = [
     ],
     name: 'InsufficientBalance',
   },
+  { type: 'error', inputs: [], name: 'InvalidShortString' },
   {
     type: 'error',
     inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
@@ -369,11 +461,81 @@ export const web3ProjectFactoryAbi = [
     inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
     name: 'OwnableUnauthorizedAccount',
   },
+  {
+    type: 'error',
+    inputs: [{ name: 'str', internalType: 'string', type: 'string' }],
+    name: 'StringTooLong',
+  },
 ] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // React
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link iWeb3ProjectAbi}__
+ */
+export const useReadIWeb3Project = /*#__PURE__*/ createUseReadContract({
+  abi: iWeb3ProjectAbi,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link iWeb3ProjectAbi}__ and `functionName` set to `"getOwner"`
+ */
+export const useReadIWeb3ProjectGetOwner = /*#__PURE__*/ createUseReadContract({
+  abi: iWeb3ProjectAbi,
+  functionName: 'getOwner',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link iWeb3ProjectAbi}__
+ */
+export const useWriteIWeb3Project = /*#__PURE__*/ createUseWriteContract({
+  abi: iWeb3ProjectAbi,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link iWeb3ProjectAbi}__ and `functionName` set to `"initialize"`
+ */
+export const useWriteIWeb3ProjectInitialize =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: iWeb3ProjectAbi,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link iWeb3ProjectAbi}__ and `functionName` set to `"initializeWithMetadata"`
+ */
+export const useWriteIWeb3ProjectInitializeWithMetadata =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: iWeb3ProjectAbi,
+    functionName: 'initializeWithMetadata',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link iWeb3ProjectAbi}__
+ */
+export const useSimulateIWeb3Project = /*#__PURE__*/ createUseSimulateContract({
+  abi: iWeb3ProjectAbi,
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link iWeb3ProjectAbi}__ and `functionName` set to `"initialize"`
+ */
+export const useSimulateIWeb3ProjectInitialize =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: iWeb3ProjectAbi,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link iWeb3ProjectAbi}__ and `functionName` set to `"initializeWithMetadata"`
+ */
+export const useSimulateIWeb3ProjectInitializeWithMetadata =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: iWeb3ProjectAbi,
+    functionName: 'initializeWithMetadata',
+  })
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link iWeb3ProjectFactoryAbi}__
@@ -389,6 +551,15 @@ export const useReadIWeb3ProjectFactoryGetVerifier =
   /*#__PURE__*/ createUseReadContract({
     abi: iWeb3ProjectFactoryAbi,
     functionName: 'getVerifier',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link iWeb3ProjectFactoryAbi}__ and `functionName` set to `"verifyMetadata"`
+ */
+export const useReadIWeb3ProjectFactoryVerifyMetadata =
+  /*#__PURE__*/ createUseReadContract({
+    abi: iWeb3ProjectFactoryAbi,
+    functionName: 'verifyMetadata',
   })
 
 /**
@@ -417,13 +588,12 @@ export const useReadWeb3ProjectGetLatestMetrics =
   })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link web3ProjectAbi}__ and `functionName` set to `"hashPayload"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link web3ProjectAbi}__ and `functionName` set to `"getOwner"`
  */
-export const useReadWeb3ProjectHashPayload =
-  /*#__PURE__*/ createUseReadContract({
-    abi: web3ProjectAbi,
-    functionName: 'hashPayload',
-  })
+export const useReadWeb3ProjectGetOwner = /*#__PURE__*/ createUseReadContract({
+  abi: web3ProjectAbi,
+  functionName: 'getOwner',
+})
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link web3ProjectAbi}__ and `functionName` set to `"metricsSnapshots"`
@@ -450,23 +620,6 @@ export const useReadWeb3ProjectProjectSnapshots =
     abi: web3ProjectAbi,
     functionName: 'projectSnapshots',
   })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link web3ProjectAbi}__ and `functionName` set to `"recoverSignerAddress"`
- */
-export const useReadWeb3ProjectRecoverSignerAddress =
-  /*#__PURE__*/ createUseReadContract({
-    abi: web3ProjectAbi,
-    functionName: 'recoverSignerAddress',
-  })
-
-/**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link web3ProjectAbi}__ and `functionName` set to `"verify"`
- */
-export const useReadWeb3ProjectVerify = /*#__PURE__*/ createUseReadContract({
-  abi: web3ProjectAbi,
-  functionName: 'verify',
-})
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link web3ProjectAbi}__
@@ -500,15 +653,6 @@ export const useWriteWeb3ProjectUpdateMetadata =
   /*#__PURE__*/ createUseWriteContract({
     abi: web3ProjectAbi,
     functionName: 'updateMetadata',
-  })
-
-/**
- * Wraps __{@link useWriteContract}__ with `abi` set to __{@link web3ProjectAbi}__ and `functionName` set to `"updateMetrics"`
- */
-export const useWriteWeb3ProjectUpdateMetrics =
-  /*#__PURE__*/ createUseWriteContract({
-    abi: web3ProjectAbi,
-    functionName: 'updateMetrics',
   })
 
 /**
@@ -546,15 +690,6 @@ export const useSimulateWeb3ProjectUpdateMetadata =
   })
 
 /**
- * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link web3ProjectAbi}__ and `functionName` set to `"updateMetrics"`
- */
-export const useSimulateWeb3ProjectUpdateMetrics =
-  /*#__PURE__*/ createUseSimulateContract({
-    abi: web3ProjectAbi,
-    functionName: 'updateMetrics',
-  })
-
-/**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link web3ProjectAbi}__
  */
 export const useWatchWeb3ProjectEvent =
@@ -584,6 +719,24 @@ export const useWatchWeb3ProjectMetricsUpdatedEvent =
 export const useReadWeb3ProjectFactory = /*#__PURE__*/ createUseReadContract({
   abi: web3ProjectFactoryAbi,
 })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link web3ProjectFactoryAbi}__ and `functionName` set to `"createDigest"`
+ */
+export const useReadWeb3ProjectFactoryCreateDigest =
+  /*#__PURE__*/ createUseReadContract({
+    abi: web3ProjectFactoryAbi,
+    functionName: 'createDigest',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link web3ProjectFactoryAbi}__ and `functionName` set to `"eip712Domain"`
+ */
+export const useReadWeb3ProjectFactoryEip712Domain =
+  /*#__PURE__*/ createUseReadContract({
+    abi: web3ProjectFactoryAbi,
+    functionName: 'eip712Domain',
+  })
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link web3ProjectFactoryAbi}__ and `functionName` set to `"getProjects"`
@@ -631,12 +784,30 @@ export const useReadWeb3ProjectFactoryProjects =
   })
 
 /**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link web3ProjectFactoryAbi}__ and `functionName` set to `"recoverSigner"`
+ */
+export const useReadWeb3ProjectFactoryRecoverSigner =
+  /*#__PURE__*/ createUseReadContract({
+    abi: web3ProjectFactoryAbi,
+    functionName: 'recoverSigner',
+  })
+
+/**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link web3ProjectFactoryAbi}__ and `functionName` set to `"verifier"`
  */
 export const useReadWeb3ProjectFactoryVerifier =
   /*#__PURE__*/ createUseReadContract({
     abi: web3ProjectFactoryAbi,
     functionName: 'verifier',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link web3ProjectFactoryAbi}__ and `functionName` set to `"verifyMetadata"`
+ */
+export const useReadWeb3ProjectFactoryVerifyMetadata =
+  /*#__PURE__*/ createUseReadContract({
+    abi: web3ProjectFactoryAbi,
+    functionName: 'verifyMetadata',
   })
 
 /**
@@ -731,6 +902,15 @@ export const useWatchWeb3ProjectFactoryEvent =
   /*#__PURE__*/ createUseWatchContractEvent({ abi: web3ProjectFactoryAbi })
 
 /**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link web3ProjectFactoryAbi}__ and `eventName` set to `"EIP712DomainChanged"`
+ */
+export const useWatchWeb3ProjectFactoryEip712DomainChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: web3ProjectFactoryAbi,
+    eventName: 'EIP712DomainChanged',
+  })
+
+/**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link web3ProjectFactoryAbi}__ and `eventName` set to `"OwnershipTransferred"`
  */
 export const useWatchWeb3ProjectFactoryOwnershipTransferredEvent =
@@ -753,6 +933,70 @@ export const useWatchWeb3ProjectFactoryProjectCreatedEvent =
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iWeb3ProjectAbi}__
+ */
+export const readIWeb3Project = /*#__PURE__*/ createReadContract({
+  abi: iWeb3ProjectAbi,
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iWeb3ProjectAbi}__ and `functionName` set to `"getOwner"`
+ */
+export const readIWeb3ProjectGetOwner = /*#__PURE__*/ createReadContract({
+  abi: iWeb3ProjectAbi,
+  functionName: 'getOwner',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iWeb3ProjectAbi}__
+ */
+export const writeIWeb3Project = /*#__PURE__*/ createWriteContract({
+  abi: iWeb3ProjectAbi,
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iWeb3ProjectAbi}__ and `functionName` set to `"initialize"`
+ */
+export const writeIWeb3ProjectInitialize = /*#__PURE__*/ createWriteContract({
+  abi: iWeb3ProjectAbi,
+  functionName: 'initialize',
+})
+
+/**
+ * Wraps __{@link writeContract}__ with `abi` set to __{@link iWeb3ProjectAbi}__ and `functionName` set to `"initializeWithMetadata"`
+ */
+export const writeIWeb3ProjectInitializeWithMetadata =
+  /*#__PURE__*/ createWriteContract({
+    abi: iWeb3ProjectAbi,
+    functionName: 'initializeWithMetadata',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iWeb3ProjectAbi}__
+ */
+export const simulateIWeb3Project = /*#__PURE__*/ createSimulateContract({
+  abi: iWeb3ProjectAbi,
+})
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iWeb3ProjectAbi}__ and `functionName` set to `"initialize"`
+ */
+export const simulateIWeb3ProjectInitialize =
+  /*#__PURE__*/ createSimulateContract({
+    abi: iWeb3ProjectAbi,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link simulateContract}__ with `abi` set to __{@link iWeb3ProjectAbi}__ and `functionName` set to `"initializeWithMetadata"`
+ */
+export const simulateIWeb3ProjectInitializeWithMetadata =
+  /*#__PURE__*/ createSimulateContract({
+    abi: iWeb3ProjectAbi,
+    functionName: 'initializeWithMetadata',
+  })
+
+/**
  * Wraps __{@link readContract}__ with `abi` set to __{@link iWeb3ProjectFactoryAbi}__
  */
 export const readIWeb3ProjectFactory = /*#__PURE__*/ createReadContract({
@@ -766,6 +1010,15 @@ export const readIWeb3ProjectFactoryGetVerifier =
   /*#__PURE__*/ createReadContract({
     abi: iWeb3ProjectFactoryAbi,
     functionName: 'getVerifier',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iWeb3ProjectFactoryAbi}__ and `functionName` set to `"verifyMetadata"`
+ */
+export const readIWeb3ProjectFactoryVerifyMetadata =
+  /*#__PURE__*/ createReadContract({
+    abi: iWeb3ProjectFactoryAbi,
+    functionName: 'verifyMetadata',
   })
 
 /**
@@ -792,11 +1045,11 @@ export const readWeb3ProjectGetLatestMetrics = /*#__PURE__*/ createReadContract(
 )
 
 /**
- * Wraps __{@link readContract}__ with `abi` set to __{@link web3ProjectAbi}__ and `functionName` set to `"hashPayload"`
+ * Wraps __{@link readContract}__ with `abi` set to __{@link web3ProjectAbi}__ and `functionName` set to `"getOwner"`
  */
-export const readWeb3ProjectHashPayload = /*#__PURE__*/ createReadContract({
+export const readWeb3ProjectGetOwner = /*#__PURE__*/ createReadContract({
   abi: web3ProjectAbi,
-  functionName: 'hashPayload',
+  functionName: 'getOwner',
 })
 
 /**
@@ -820,23 +1073,6 @@ export const readWeb3ProjectOwner = /*#__PURE__*/ createReadContract({
 export const readWeb3ProjectProjectSnapshots = /*#__PURE__*/ createReadContract(
   { abi: web3ProjectAbi, functionName: 'projectSnapshots' },
 )
-
-/**
- * Wraps __{@link readContract}__ with `abi` set to __{@link web3ProjectAbi}__ and `functionName` set to `"recoverSignerAddress"`
- */
-export const readWeb3ProjectRecoverSignerAddress =
-  /*#__PURE__*/ createReadContract({
-    abi: web3ProjectAbi,
-    functionName: 'recoverSignerAddress',
-  })
-
-/**
- * Wraps __{@link readContract}__ with `abi` set to __{@link web3ProjectAbi}__ and `functionName` set to `"verify"`
- */
-export const readWeb3ProjectVerify = /*#__PURE__*/ createReadContract({
-  abi: web3ProjectAbi,
-  functionName: 'verify',
-})
 
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link web3ProjectAbi}__
@@ -868,14 +1104,6 @@ export const writeWeb3ProjectInitializeWithMetadata =
 export const writeWeb3ProjectUpdateMetadata = /*#__PURE__*/ createWriteContract(
   { abi: web3ProjectAbi, functionName: 'updateMetadata' },
 )
-
-/**
- * Wraps __{@link writeContract}__ with `abi` set to __{@link web3ProjectAbi}__ and `functionName` set to `"updateMetrics"`
- */
-export const writeWeb3ProjectUpdateMetrics = /*#__PURE__*/ createWriteContract({
-  abi: web3ProjectAbi,
-  functionName: 'updateMetrics',
-})
 
 /**
  * Wraps __{@link simulateContract}__ with `abi` set to __{@link web3ProjectAbi}__
@@ -912,15 +1140,6 @@ export const simulateWeb3ProjectUpdateMetadata =
   })
 
 /**
- * Wraps __{@link simulateContract}__ with `abi` set to __{@link web3ProjectAbi}__ and `functionName` set to `"updateMetrics"`
- */
-export const simulateWeb3ProjectUpdateMetrics =
-  /*#__PURE__*/ createSimulateContract({
-    abi: web3ProjectAbi,
-    functionName: 'updateMetrics',
-  })
-
-/**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link web3ProjectAbi}__
  */
 export const watchWeb3ProjectEvent = /*#__PURE__*/ createWatchContractEvent({
@@ -951,6 +1170,24 @@ export const watchWeb3ProjectMetricsUpdatedEvent =
 export const readWeb3ProjectFactory = /*#__PURE__*/ createReadContract({
   abi: web3ProjectFactoryAbi,
 })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link web3ProjectFactoryAbi}__ and `functionName` set to `"createDigest"`
+ */
+export const readWeb3ProjectFactoryCreateDigest =
+  /*#__PURE__*/ createReadContract({
+    abi: web3ProjectFactoryAbi,
+    functionName: 'createDigest',
+  })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link web3ProjectFactoryAbi}__ and `functionName` set to `"eip712Domain"`
+ */
+export const readWeb3ProjectFactoryEip712Domain =
+  /*#__PURE__*/ createReadContract({
+    abi: web3ProjectFactoryAbi,
+    functionName: 'eip712Domain',
+  })
 
 /**
  * Wraps __{@link readContract}__ with `abi` set to __{@link web3ProjectFactoryAbi}__ and `functionName` set to `"getProjects"`
@@ -996,12 +1233,30 @@ export const readWeb3ProjectFactoryProjects = /*#__PURE__*/ createReadContract({
 })
 
 /**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link web3ProjectFactoryAbi}__ and `functionName` set to `"recoverSigner"`
+ */
+export const readWeb3ProjectFactoryRecoverSigner =
+  /*#__PURE__*/ createReadContract({
+    abi: web3ProjectFactoryAbi,
+    functionName: 'recoverSigner',
+  })
+
+/**
  * Wraps __{@link readContract}__ with `abi` set to __{@link web3ProjectFactoryAbi}__ and `functionName` set to `"verifier"`
  */
 export const readWeb3ProjectFactoryVerifier = /*#__PURE__*/ createReadContract({
   abi: web3ProjectFactoryAbi,
   functionName: 'verifier',
 })
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link web3ProjectFactoryAbi}__ and `functionName` set to `"verifyMetadata"`
+ */
+export const readWeb3ProjectFactoryVerifyMetadata =
+  /*#__PURE__*/ createReadContract({
+    abi: web3ProjectFactoryAbi,
+    functionName: 'verifyMetadata',
+  })
 
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link web3ProjectFactoryAbi}__
@@ -1094,6 +1349,15 @@ export const simulateWeb3ProjectFactoryTransferOwnership =
  */
 export const watchWeb3ProjectFactoryEvent =
   /*#__PURE__*/ createWatchContractEvent({ abi: web3ProjectFactoryAbi })
+
+/**
+ * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link web3ProjectFactoryAbi}__ and `eventName` set to `"EIP712DomainChanged"`
+ */
+export const watchWeb3ProjectFactoryEip712DomainChangedEvent =
+  /*#__PURE__*/ createWatchContractEvent({
+    abi: web3ProjectFactoryAbi,
+    eventName: 'EIP712DomainChanged',
+  })
 
 /**
  * Wraps __{@link watchContractEvent}__ with `abi` set to __{@link web3ProjectFactoryAbi}__ and `eventName` set to `"OwnershipTransferred"`

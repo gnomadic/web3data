@@ -3,6 +3,7 @@
 import { useProjects } from "@/contexts/ProjectContext";
 import { Card, CardHeader, CardTitle, CardDescription } from "../ui/card";
 import { Button } from "../ui/button";
+import Link from "next/link";
 
 
 type Props = {
@@ -42,18 +43,21 @@ export default function ProjectCardList({ openCreateProject }: Props) {
                     </CardHeader>
                 </Card>
                 {projects?.map((project, index) => (
-                    <Card
-                        key={index}
-                        className="hover:border-primary cursor-pointer transition"
-                    // onClick={() => navigate(`/project/${project.id}`)}
-                    >
-                        <CardHeader>
-                            <CardTitle>{project}</CardTitle>
-                            <CardDescription>
-                                {/* {project.description || "No description provided."} */}
-                            </CardDescription>
-                        </CardHeader>
-                    </Card>
+                    <Link key={index} href={`/project/${project}`}>
+
+                        <Card
+
+                            className="hover:border-primary cursor-pointer transition"
+                        // onClick={() => navigate(`/project/${project.id}`)}
+                        >
+                            <CardHeader>
+                                <CardTitle>{project}</CardTitle>
+                                <CardDescription>
+                                    {/* {project.description || "No description provided."} */}
+                                </CardDescription>
+                            </CardHeader>
+                        </Card>
+                    </Link>
                 ))}
             </div>
         </section>

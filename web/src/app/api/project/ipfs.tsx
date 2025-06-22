@@ -6,20 +6,25 @@ const pinata = new PinataSDK({
   pinataGateway: `${process.env.NEXT_PUBLIC_GATEWAY_URL}`
 })
 
-export async function uploadMetadataToIPFS(request: Request) {
+type IPFSPayload = {
+  metadata: any;
+  signature: string;
+  timestamp: number;
+};
+
+export async function uploadToIPFS(payload: IPFSPayload) {
     try {
-        const input = await request.json()
+        const { cid } = await pinata.upload.public.json(payload, {
+            metadata: {
+                name: `Web3Project: ${payload.metadata.name}`,
+            }
 
-        const payload = {
-            name: input.name,
-            description: input.description,
-            signature: input.signature,
-        };
+        
+        });
+        // const url = await pinata.gateways.public.convert(cid);
+        return cid; // Return the URL of the uploaded JSON
 
-        const { cid } = await pinata.upload.public.json(payload);
-        const url = await pinata.gateways.public.convert(cid);
-
-        return NextResponse.json(url, { status: 200 });
+        // return NextResponse.json(url, { status: 200 });
 
 
         // const data = await request.formData();

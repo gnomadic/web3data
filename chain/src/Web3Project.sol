@@ -1,25 +1,38 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import {IWeb3Project} from "./IWeb3Project.sol";
-import {MetadataPayload, VerifiableMetadata} from "./VerifiableMetadata.sol";
-import {IWeb3ProjectFactory} from "./Web3ProjectFactory.sol";
+import {IWeb3ProjectFactory, MetadataPayload} from "./Web3ProjectFactory.sol";
 
 struct Web3MetricsSnapshot {
-    bytes32 metricsCID;
+    string metricsCID;
     uint256 timestamp;
     bytes signature;
 }
 
 struct Web3ProjectSnapshot {
-    bytes32 metadataCID;
+    string metadataCID;
     uint256 timestamp;
     bytes signature;
 }
 
-contract Web3Project is IWeb3Project, VerifiableMetadata {
+interface IWeb3Project {
+    function initialize(address creator, address factory) external;
+
+    function initializeWithMetadata(
+        address _owner,
+        address _factory,
+        string memory metadataCID,
+        uint256 timestamp,
+        bytes memory signature,
+        string calldata input
+    ) external;
+
+    function getOwner() external view returns (address);
+}
+
+contract Web3Project is IWeb3Project {
     address public owner;
-    address private factory;
+    IWeb3ProjectFactory private factory;
 
     Web3MetricsSnapshot[] public metricsSnapshots;
     Web3ProjectSnapshot[] public projectSnapshots;
@@ -29,49 +42,57 @@ contract Web3Project is IWeb3Project, VerifiableMetadata {
     function initialize(address _owner, address _factory) external {
         require(owner == address(0), "Already initialized");
         owner = _owner;
-        factory = _factory;
+        factory = IWeb3ProjectFactory(_factory);
     }
 
     function initializeWithMetadata(
         address _owner,
         address _factory,
-        bytes32 metadataCID,
+        string memory metadataCID,
         uint256 timestamp,
         bytes memory signature,
         string calldata input
     ) external {
         require(owner == address(0), "Already initialized");
         owner = _owner;
-        factory = _factory;
+        factory = IWeb3ProjectFactory(_factory);
 
         updateMetadata(metadataCID, timestamp, signature, input);
     }
 
-    function updateMetrics(
-        bytes32 metricsCID,
-        uint256 timestamp,
-        bytes memory signature,
-        string calldata input
-    ) public onlyOwner {
-        if (!verify(MetadataPayload(input, msg.sender, timestamp), signature)) {
-            revert NOT_VERIFIED();
-        }
+    // function updateMetrics(
+    //     string memory metricsCID,
+    //     uint256 timestamp,
+    //     bytes memory signature,
+    //     string calldata input
+    // ) public onlyOwner {
+    //     if (
+    //         !factory.verify(
+    //             MetadataPayload(input, msg.sender, timestamp),
+    //             signature
+    //         )
+    //     ) {
+    //         revert NOT_VERIFIED();
+    //     }
 
-        metricsSnapshots.push(
-            Web3MetricsSnapshot(metricsCID, timestamp, signature)
-        );
-        emit MetricsUpdated(metricsCID, timestamp);
-    }
+    //     metricsSnapshots.push(
+    //         Web3MetricsSnapshot(metricsCID, timestamp, signature)
+    //     );
+    //     emit MetricsUpdated(metricsCID, timestamp);
+    // }
 
     function updateMetadata(
-        bytes32 metadataCID,
+        string memory metadataCID,
         uint256 timestamp,
         bytes memory signature,
         string calldata input
     ) public onlyOwner {
-        if (!verify(MetadataPayload(input, msg.sender, timestamp), signature)) {
-            revert NOT_VERIFIED();
-        }
+        bool verified = factory.verifyMetadata(
+            MetadataPayload(input, msg.sender, timestamp),
+            signature
+        );
+
+        require(verified, "Metadata verification failed");
 
         projectSnapshots.push(
             Web3ProjectSnapshot(metadataCID, timestamp, signature)
@@ -84,9 +105,8 @@ contract Web3Project is IWeb3Project, VerifiableMetadata {
         view
         returns (Web3MetricsSnapshot memory)
     {
-        if (metricsSnapshots.length == 0) {
-            revert NO_DATA();
-        }
+        require(metricsSnapshots.length > 0, "No metrics snapshots available");
+
         return metricsSnapshots[metricsSnapshots.length - 1];
     }
 
@@ -95,28 +115,27 @@ contract Web3Project is IWeb3Project, VerifiableMetadata {
         view
         returns (Web3ProjectSnapshot memory)
     {
-        if (projectSnapshots.length == 0) {
-            revert NO_DATA();
-        }
+        require(projectSnapshots.length > 0, "No project snapshots available");
+
         return projectSnapshots[projectSnapshots.length - 1];
     }
 
     modifier onlyOwner() {
-        require(msg.sender == owner, "Not project owner");
+        // require(
+        //     msg.sender == owner || msg.sender == address(factory),
+        //     "NOT_OWNER"
+        // );
         _;
     }
 
-    function getVerifiedSigner() internal view override returns (address) {
-        return IWeb3ProjectFactory(factory).getVerifier();
-    }
-
-    function getOwner() internal view override returns (address) {
+    function getOwner() external view override returns (address) {
         return owner;
     }
 
-    event MetadataUpdated(bytes32 metadataID, uint256 timestamp);
-    event MetricsUpdated(bytes32 metricsID, uint256 timestamp);
+    event MetadataUpdated(string metadataID, uint256 timestamp);
+    event MetricsUpdated(string metricsID, uint256 timestamp);
 
-    error NOT_VERIFIED();
-    error NO_DATA();
+    // error NOT_VERIFIED();
+    // error NO_DATA();
+    // error NOT_OWNER();
 }

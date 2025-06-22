@@ -16,20 +16,20 @@ const ProjectContext = createContext<ProjectContextProps>({
 });
 
 export const ProjectProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    
+
     const { deploy } = useDeployment();
-    const {data: projects, isLoading, isError, error, refetch: updateProjects} = useReadWeb3ProjectFactoryGetProjects({
-        address: deploy.Web3ProjectFactory,
+    const { data: projects, isLoading, isError, error, refetch: updateProjects } = useReadWeb3ProjectFactoryGetProjects({
+        address: deploy?.Web3ProjectFactory,
         // address: "0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496"
     });
-    
+
     return (
         <ProjectContext.Provider value={{ projects: projects, updateProjects }}>
-            <div>okok {JSON.stringify(deploy.Web3ProjectFactory)}</div>
-<div>okok {JSON.stringify(projects)}</div>
-<div>okok loading: {JSON.stringify(isLoading)}</div>
-<div>okok error: {JSON.stringify(isError)}</div>
-<div>okok error: {JSON.stringify(error)}</div>
+            <div>okok {JSON.stringify(deploy?.Web3ProjectFactory)}</div>
+            <div>okok {JSON.stringify(projects)}</div>
+            <div>okok loading: {JSON.stringify(isLoading)}</div>
+            <div>okok error: {JSON.stringify(isError)}</div>
+            <div>okok error: {JSON.stringify(error)}</div>
             {children}
         </ProjectContext.Provider>
     );

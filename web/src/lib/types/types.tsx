@@ -11,6 +11,7 @@ export type Deployment = {
   scan?: string | undefined;
   viemChain: Chain;
   viemTransport: Transport;
+  chainId: number;
 }
 
 
