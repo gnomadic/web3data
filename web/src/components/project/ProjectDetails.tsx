@@ -3,15 +3,16 @@
 import { useProjects } from "@/contexts/ProjectContext";
 import { Card, CardHeader, CardTitle, CardDescription } from "../ui/card";
 import { Button } from "../ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAccount, useWaitForTransactionReceipt } from "wagmi";
 import { useDeployment } from "@/hooks/useDeployment";
 import { useCreateProject } from "@/hooks/useCreateProject";
 import { sign } from "crypto";
-import { Address, Hex, toHex } from "viem";
-import { useReadWeb3ProjectFactoryGetVerifier, useReadWeb3ProjectFactoryRecoverSigner, useReadWeb3ProjectGetLatestMetadata, useReadWeb3ProjectGetOwner, useWriteWeb3ProjectUpdateMetadata } from "@/generated";
+import { Address, Hex, toBytes, toHex } from "viem";
+import { useReadIWeb3ProjectFactoryVerifyMetadata, useReadWeb3ProjectFactoryCreateDigest, useReadWeb3ProjectFactoryGetVerifier, useReadWeb3ProjectFactoryRecoverSigner, useReadWeb3ProjectGetLatestMetadata, useReadWeb3ProjectGetOwner, useWriteWeb3ProjectUpdateMetadata } from "@/generated";
 import { bigIntReplacer } from "@/lib/utils";
 import useGetIPFS from "@/hooks/useGetIPFS";
+import CreateButton from "../CreateButton";
 
 
 type Props = {
@@ -37,6 +38,8 @@ export default function ProjectDetails({ projectAddress }: Props) {
     //   ],
 
     // });
+
+
 
     const { createProject } = useCreateProject();
 
@@ -121,6 +124,53 @@ export default function ProjectDetails({ projectAddress }: Props) {
         ]
     });
 
+    const {data: latestMetadata} = useReadWeb3ProjectGetLatestMetadata({
+        address: projectAddress,
+        args: [],
+    });
+
+    const {data: ipfsMetadata} = useGetIPFS<Metadata>(latestMetadata?.metadataCID);
+    const [veriData, setVeriData] = useState({
+        verifiableData: "",
+        owner: address!,
+        timestamp: BigInt(0),
+        sig: '0x0',
+    });
+
+
+
+    const {data: okok, isError: okokErro, isSuccess: okokSucc} = useReadIWeb3ProjectFactoryVerifyMetadata({
+        address: deploy?.Web3ProjectFactory,
+        args: [
+            { verifiableData: `{"verifiableData":{"name":"Test Project","description":"This is a test project description"},"owner":"0x2273fFEd38ED040FBcd3e45Cd807594d27ebfAE3","timestamp":1750686091}`, owner: '0x2273fFEd38ED040FBcd3e45Cd807594d27ebfAE3', timestamp: BigInt(1750686091)},
+            '0x4755232d8ac05624a8d82dc37984d9d867c1654febf615c8a5fd1fee4b3745543dd47f79ef26e377e192ef80ad57ab25a7004547fa19e2fccb8cb21ef7c858d51b',
+        ]
+    });
+
+ 
+
+
+
+    useEffect(() => {
+        if (ipfsMetadata && address) {
+            setVeriData({
+                verifiableData: ipfsMetadata.metadata,
+                owner: address!,
+                timestamp: BigInt(ipfsMetadata.timestamp),
+                sig: ipfsMetadata.signature as `0x${string}`,
+            });
+        }
+    }, [ipfsMetadata, address]);
+
+        const {data: chainDigest} = useReadWeb3ProjectFactoryCreateDigest({
+        address: deploy?.Web3ProjectFactory,
+        args: [
+            toHex("MetadataPayload(string verifiableData,address owner,uint256 timestamp)"),
+            { verifiableData: veriData.verifiableData, owner: veriData.owner, timestamp: veriData.timestamp },
+        ]
+    });
+
+
     // const {data} = useReadWeb3ProjectFactoryDebugVerify({
     //   address: deploy.Web3ProjectFactory,
     //   args: [
@@ -161,6 +211,8 @@ export default function ProjectDetails({ projectAddress }: Props) {
     return (
         <section>
 
+            <CreateButton owner={address as Address} />
+
             <div>owner: {JSON.stringify(owner)}</div>
             <div>latest metadata: {JSON.stringify(latest, bigIntReplacer)}</div>
             <div>from ipfs: {JSON.stringify(data)}</div>
@@ -173,7 +225,7 @@ export default function ProjectDetails({ projectAddress }: Props) {
             <div>isSuccess: {JSON.stringify(isSuccess)}</div> */}
             <div className="pt-12"></div>
 
-            <div>
+            <div className="pb-48">
                 <Button
                     onClick={() => {
                         console.log("testing it");
@@ -224,6 +276,16 @@ export default function ProjectDetails({ projectAddress }: Props) {
                 <div>isLoading: {JSON.stringify(isLoading)}</div>
                 <div>isSuccess: {JSON.stringify(isSuccess)}</div> */}
 
+                <div className="pt-3"> verify</div>
+                <div>verified: {JSON.stringify(verified)}</div>
+                <div>latest metadata: {JSON.stringify(latestMetadata, bigIntReplacer)}</div>
+                <div>ipfs metadata: {JSON.stringify(ipfsMetadata, bigIntReplacer)}</div>
+                {/* <div>veridata: {JSON.stringify(veriData, bigIntReplacer)}</div> */}
+                <div>okok: {JSON.stringify(okok)}</div>
+                <div>okokError: {JSON.stringify(okokErro)}</div>
+                <div>okokSuc: {JSON.stringify(okokSucc)}</div>
+
+                <div className="pt-3">onchian digest: {JSON.stringify(chainDigest)}</div>
 
             </div>
         </section>

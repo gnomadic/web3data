@@ -13,7 +13,7 @@ type IPFSPayload = {
 };
 
 export async function uploadToIPFS(payload: IPFSPayload) {
-    try {
+    // try {
         const { cid } = await pinata.upload.public.json(payload, {
             metadata: {
                 name: `Web3Project: ${payload.metadata.name}`,
@@ -32,11 +32,11 @@ export async function uploadToIPFS(payload: IPFSPayload) {
         // const { cid } = await pinata.upload.public.file(file)
         // const url = await pinata.gateways.public.convert(cid);
         // return NextResponse.json(url, { status: 200 });
-    } catch (e) {
-        console.log(e);
-        return NextResponse.json(
-            { error: "Internal Server Error" },
-            { status: 500 }
-        );
-    }
+    // } catch (e) {
+    //     console.log(e);
+    //     return NextResponse.json(
+    //         { error: "Internal Server Error" },
+    //         { status: 500 }
+    //     );
+    // }
 }
