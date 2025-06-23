@@ -200,5 +200,10 @@ export async function POST(req: NextRequest) {
 
    
 
-    return NextResponse.json({ metadataCID, signature, timestamp, payload: payload.verifiableData });
+    return NextResponse.json({ 
+        metadataCID, 
+        signature, 
+        timestamp, 
+        payload: { ...payload, timestamp: Number(payload.timestamp) }
+    });
 }

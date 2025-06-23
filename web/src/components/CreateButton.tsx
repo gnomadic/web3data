@@ -22,6 +22,8 @@ export default function CreateButton({ owner }: { owner: Address }) {
 
     async function handleSign() {
 
+        console.log('returnValue', JSON.stringify(returnValue, null, 2));
+
         createIt({
             args: [
                 returnValue.metadataCID as string,

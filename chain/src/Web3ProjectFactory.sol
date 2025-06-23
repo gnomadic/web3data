@@ -5,7 +5,6 @@ import "@openzeppelin/contracts/proxy/Clones.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/cryptography/EIP712.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
-import "@openzeppelin/contracts/utils/cryptography/MessageHashUtils.sol";
 import {IWeb3Project} from "./Web3Project.sol";
 
 struct MetadataPayload {
@@ -25,8 +24,7 @@ interface IWeb3ProjectFactory {
 
 contract Web3ProjectFactory is Ownable, IWeb3ProjectFactory, EIP712 {
     using Clones for address;
-    using ECDSA for bytes32;
-    using MessageHashUtils for bytes32;
+    // using ECDSA for bytes32;
 
     address public verifier;
     address public immutable implementation;
@@ -95,7 +93,7 @@ contract Web3ProjectFactory is Ownable, IWeb3ProjectFactory, EIP712 {
         MetadataPayload memory payload,
         bytes memory signature
     ) public view returns (bool) {
-        IWeb3Project project = IWeb3Project(msg.sender);
+        // IWeb3Project project = IWeb3Project(msg.sender);
 
         // require(
         //     project.getOwner() == msg.sender,
