@@ -4,7 +4,7 @@ import { Deployment } from './types/types';
 
 export const Deployments: { [key: string]: Deployment } = {
     basesepolia: {
-        Web3ProjectFactory: '0x72138E255061326C29E7A60BB8eff9A1ce523445',
+        Web3ProjectFactory: '0xF4f70A251B9fb44d14773A6F6Ffe34d9E14A7768',
         scan: "https://sepolia.basescan.org/address/",
         viemChain: baseSepolia,
         viemTransport: http(`https://base-sepolia.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`),

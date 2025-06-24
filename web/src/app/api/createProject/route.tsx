@@ -108,6 +108,8 @@ import { Address, createPublicClient, createWalletClient, http, toHex } from 'vi
 import { web3ProjectFactoryAbi } from '@/generated';
 import { baseSepolia } from 'viem/chains';
 import { uploadToIPFS } from '../project/ipfs';
+import { bigIntReplacer } from '@/lib/utils';
+import { sign } from 'crypto';
 
 const privateKey = process.env.VERIFIER_PRIVATE_KEY! as `0x${string}`;
 
@@ -133,11 +135,21 @@ export async function POST(req: NextRequest) {
         ],
     };
 
-    const payload: { verifiableData: string; owner: Address; timestamp: bigint } = {
-        verifiableData: JSON.stringify(metadata),
-        owner,
-        timestamp: BigInt(timestamp),
-    };
+    // const payload: { verifiableData: string; owner: Address; timestamp: bigint } = {
+    //     // verifiableData: JSON.stringify(metadata),
+    //     verifiableData: metadata,
+    //     owner,
+    //     timestamp: BigInt(timestamp),
+    // };
+
+    const metadataString = JSON.stringify(metadata); // serialize
+const payload:  { verifiableData: string; owner: Address; timestamp: bigint } = {
+  verifiableData: metadataString,
+  owner,
+    timestamp: BigInt(timestamp),
+};
+
+    // const payload = JSON.stringify(payloadRaw, bigIntReplacer);
 
     const account = privateKeyToAccount(privateKey);
     const signature = await account.signTypedData({
@@ -158,32 +170,23 @@ export async function POST(req: NextRequest) {
 
 
 
-    //   const client = createWalletClient({
-    //     account,
-    //     chain: baseSepolia,
-    //     transport: http(),
-    //   });
 
     const client = createPublicClient({
         chain: deployment?.viemChain,
         transport: deployment?.viemTransport
     })
 
-    const digest = await client.readContract({
-        address: deployment?.Web3ProjectFactory,
-        abi: web3ProjectFactoryAbi,
-        functionName: 'createDigest',
-        args: [
-            toHex("MetadataPayload(string verifiableData,address owner,uint256 timestamp)"),
-            {
-                verifiableData: metadata,
-                owner: owner,
-                timestamp: BigInt(timestamp)
-            },
-        ],
+    const writeClient = createWalletClient({
+        chain: deployment?.viemChain,
+        transport: http(`https://base-sepolia.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_API_KEY}`),
+        key: privateKey,
     });
 
-    console.log('onchain digest:', digest);
+    const payload2: { verifiableData: string; owner: Address; timestamp: bigint } = {
+        verifiableData: JSON.stringify(metadata),
+        owner,
+        timestamp: BigInt(timestamp + 100),
+    }; 
 
     const verified = await client.readContract({
         address: contractAddress,
@@ -191,8 +194,45 @@ export async function POST(req: NextRequest) {
         functionName: 'verifyMetadata',
         args: [
             payload,
+            // payload2,
+
             signature,
         ],
+    });
+
+    // const create = await writeClient.writeContract({
+    //     address: contractAddress,
+    //     abi: web3ProjectFactoryAbi,
+    //     functionName: 'createProjectWithMetadata',
+    //     account: "0x4588a3747bF53b3d1fB94123cC207ee5cfE26170",
+    //     args: [
+    //         metadataCID,
+    //         BigInt(timestamp),
+    //         signature,
+    //         JSON.stringify(payload), // ensure payload is serialized correctly
+    //         // payload, // ensure payload is serialized correctly
+    //         // JSON.stringify(payload, bigIntReplacer), // ensure BigInt is handled correctly
+    //     ],
+    // });
+
+    console.log('payload: ', payload);
+    console.log('payload data: ', payload.verifiableData);
+    console.log('payload owner: ', payload.owner);
+    console.log('payload timestamp: ', payload.timestamp);
+    console.log('signature:',signature);
+    console.log('verified onchain: ', JSON.stringify(verified));
+
+
+
+
+
+
+
+    return NextResponse.json({ 
+        metadataCID, 
+        signature, 
+        timestamp, 
+        payload: { ...payload, timestamp: Number(payload.timestamp) },
     });
 
     console.log('verified onchain:', verified);
