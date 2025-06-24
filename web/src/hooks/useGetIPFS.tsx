@@ -16,7 +16,8 @@ export default function useGetIPFS<T = any>(cid: string | undefined) {
         return useQuery<T, Error>({
             queryKey: ['Activities_undefined'],
             queryFn: () => Promise.resolve('' as unknown as T),
-            // staleTime: process.env.CACHE_TTL ? Number(process.env.CACHE_TTL) : 1000 * 60 * 60 * 24,
+            // staleTime: process.env.CACHE_TTL ? Number(process.env.CACHE_TTL) : 1000 * 60 * 60 * 24, 
+            //TODO stale time
         });
     }
 

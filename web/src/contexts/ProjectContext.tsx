@@ -1,17 +1,23 @@
 "use client";
 
-import { useReadWeb3ProjectFactoryGetProjects, useReadWeb3ProjectFactoryProjects } from '@/generated';
+import { useReadWeb3ProjectFactoryGetProjects } from '@/generated';
 import { useDeployment } from '@/hooks/useDeployment';
-import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { Address } from 'viem';
+import React, { createContext, useContext, ReactNode } from 'react';
+import { Address, ReadContractErrorType } from 'viem';
 
 interface ProjectContextProps {
     projects: readonly Address[] | undefined;
+    projectsLoading: boolean;
+    projectsError: boolean;
+    projectsErrorMessage: ReadContractErrorType | null;
     updateProjects: () => void;
 }
 
 const ProjectContext = createContext<ProjectContextProps>({
     projects: [],
+    projectsLoading: false,
+    projectsError: false,
+    projectsErrorMessage: null,
     updateProjects: () => { },
 });
 
@@ -20,20 +26,19 @@ export const ProjectProvider: React.FC<{ children: ReactNode }> = ({ children })
     const { deploy } = useDeployment();
     const { data: projects, isLoading, isError, error, refetch: updateProjects } = useReadWeb3ProjectFactoryGetProjects({
         address: deploy?.Web3ProjectFactory,
-        // address: "0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496"
     });
 
     return (
-        <ProjectContext.Provider value={{ projects: projects, updateProjects }}>
-            <div>okok {JSON.stringify(deploy?.Web3ProjectFactory)}</div>
-            <div>okok {JSON.stringify(projects)}</div>
-            <div>okok loading: {JSON.stringify(isLoading)}</div>
-            <div>okok error: {JSON.stringify(isError)}</div>
-            <div>okok error: {JSON.stringify(error)}</div>
+        <ProjectContext.Provider value={{
+            projects: projects,
+            projectsLoading: isLoading,
+            projectsError: isError,
+            projectsErrorMessage: error,
+            updateProjects
+        }}>
             {children}
         </ProjectContext.Provider>
     );
 };
 
-// Create a hook for easy context consumption
 export const useProjects = () => useContext(ProjectContext);

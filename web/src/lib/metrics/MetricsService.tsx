@@ -37,7 +37,7 @@ export class MetricsService {
     }
 
     private fetchMetricsFromAPI(metricType: MetricType, projectId: string, config?: MetricConfig): Metric[] {
-        console.log(`Fetching ${metricType} for project ${projectId}`);
+        console.log(`Fetching ${metricType} for project ${projectId} with config: ${JSON.stringify(config)}`);
         return [{
             metricType,
             value: Math.floor(Math.random() * 1000) // Random value for simulation

@@ -1,5 +1,5 @@
-import { Address, http } from 'viem';
-import { baseSepolia, localhost, sepolia } from 'viem/chains';
+import { http } from 'viem';
+import { baseSepolia, localhost } from 'viem/chains';
 import { Deployment } from './types/types';
 
 export const Deployments: { [key: string]: Deployment } = {

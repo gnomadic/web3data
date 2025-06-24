@@ -7,7 +7,7 @@ type Props = {
   onCreate: (name: string, desc: string) => void;
 };
 
-export function CreateProject({ open, onOpenChange, onCreate }: Props) {
+export function CreateProjectForm({ open, onOpenChange, onCreate }: Props) {
 
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
