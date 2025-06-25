@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@flipsidecrypto/sdk':
+    specifier: ^2.1.0
+    version: 2.1.0
   '@radix-ui/react-slot':
     specifier: ^1.2.3
     version: 1.2.3(@types/react@19.1.8)(react@18.3.1)
@@ -509,6 +512,13 @@ packages:
       '@ethereumjs/rlp': 4.0.1
       ethereum-cryptography: 2.2.1
       micro-ftch: 0.3.1
+    dev: false
+
+  /@flipsidecrypto/sdk@2.1.0:
+    resolution: {integrity: sha512-Ko9awqzFbIWGoW/VAivnCuISAlJzvNUI7LvyROX7RYbfveyISX07YtNEDWurM0oYr/KDL2NLjzqh1AGoVJvipw==}
+    dependencies:
+      '@types/eslint': 8.56.12
+      xior: 0.1.4
     dev: false
 
   /@humanfs/core@0.19.1:
@@ -1773,13 +1783,18 @@ packages:
       '@types/ms': 2.1.0
     dev: false
 
+  /@types/eslint@8.56.12:
+    resolution: {integrity: sha512-03ruubjWyOHlmljCVoxSuNDdmfZDzsrrz0P2LeJsOXr+ZwFQ+0yQIwNCwt/GYhV7Z31fgtXJTAEs+FYlEL851g==}
+    dependencies:
+      '@types/estree': 1.0.8
+      '@types/json-schema': 7.0.15
+    dev: false
+
   /@types/estree@1.0.8:
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
-    dev: true
 
   /@types/json-schema@7.0.15:
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
-    dev: true
 
   /@types/json5@0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
@@ -6215,6 +6230,11 @@ packages:
       real-require: 0.1.0
     dev: false
 
+  /tiny-lru@11.3.3:
+    resolution: {integrity: sha512-/ShxBZOgHXDdZi7FxajcsH0MfcBqwP+t7i4T3PGjI//NUA5aCpC7cB9bbdAYrAeQLBUTJfg2rk191fzZGeo7DA==}
+    engines: {node: '>=12'}
+    dev: false
+
   /tinyglobby@0.2.14:
     resolution: {integrity: sha512-tX5e7OM1HnYr2+a2C/4V0htOcSQcoSTH9KgJnVvNm5zm/cyEWKJ7j7YutsH9CxMdtOkkLFy2AHrMci9IM8IPZQ==}
     engines: {node: '>=12.0.0'}
@@ -6242,6 +6262,11 @@ packages:
     dependencies:
       typescript: 5.8.3
     dev: true
+
+  /ts-deepmerge@7.0.3:
+    resolution: {integrity: sha512-Du/ZW2RfwV/D4cmA5rXafYjBQVuvu4qGiEEla4EmEHVHgRdx68Gftx7i66jn2bzHPwSVZY36Ae6OuDn9el4ZKA==}
+    engines: {node: '>=14.13.1'}
+    dev: false
 
   /tsconfig-paths@3.15.0:
     resolution: {integrity: sha512-2Ac2RgzDe/cn48GvOe3M+o82pEFewD3UPbyoUHHdKasHwJKjds4fLXWf/Ux5kATBKN20oaFGu+jbElp1pos0mg==}
@@ -6793,6 +6818,13 @@ packages:
         optional: true
       utf-8-validate:
         optional: true
+
+  /xior@0.1.4:
+    resolution: {integrity: sha512-vigS5TEZEmM76FeE/tmIhp0MX9dHOdysxMTKtWgzjbuPK5Hmgi+zwgiI6xVShMkQqPf6mpXIcywYidOJwmksaw==}
+    dependencies:
+      tiny-lru: 11.3.3
+      ts-deepmerge: 7.0.3
+    dev: false
 
   /xmlhttprequest-ssl@2.1.2:
     resolution: {integrity: sha512-TEU+nJVUUnA4CYJFLvK5X9AOeH4KvDvhIfm0vV1GaQRtchnG0hgK5p8hw/xjv8cunWYCsiPCSDzObPyhEwq3KQ==}

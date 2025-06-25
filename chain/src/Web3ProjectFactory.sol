@@ -50,15 +50,8 @@ contract Web3ProjectFactory is IWeb3ProjectFactory, EIP712, Ownable {
     function createProjectWithMetadata(
         string memory metadataCID,
         MetadataPayload memory payload,
-        // uint256 timestamp,
         bytes memory signature
-    )
-        external
-        returns (
-            // string calldata input
-            address
-        )
-    {
+    ) external returns (address) {
         address proxy = implementation.clone();
 
         projects.push(proxy);

@@ -1,17 +1,22 @@
 
+import { ProjectMetadata } from "@/lib/types/types";
 import React, { useState } from "react";
+import { Address } from "viem";
 
 type Props = {
   open: boolean;
   onOpenChange: (val: boolean) => void;
-  onCreate: (name: string, desc: string) => void;
+  onCreate: (metadata: ProjectMetadata) => void;
 };
 
 export function CreateProjectForm({ open, onOpenChange, onCreate }: Props) {
 
-  const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
+  const [name, setName] = useState("test");
+  const [description, setDescription] = useState("test description");
+  const [contracts, setContracts] = useState<Address[]>(["0x4803b165381796276c7c211cca649174ba2df81f"]);
   const [error, setError] = useState("");
+
+  
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -19,9 +24,15 @@ export function CreateProjectForm({ open, onOpenChange, onCreate }: Props) {
       setError("Project name is required");
       return;
     }
-    onCreate(name.trim(), desc.trim());
+    onCreate({
+      name: name.trim(),
+      description: description.trim(),
+      contracts: contracts
+    });
+
+    // }});
     setName("");
-    setDesc("");
+    setDescription("");
     setError("");
   }
 
@@ -44,8 +55,8 @@ export function CreateProjectForm({ open, onOpenChange, onCreate }: Props) {
           className="border border-border rounded px-4 py-2 bg-muted/40"
           placeholder="Project Description"
           rows={3}
-          value={desc}
-          onChange={(e) => setDesc(e.target.value)}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
         />
         {error && <div className="text-red-500 text-sm mb-1">{error}</div>}
         <div className="flex justify-end gap-3 mt-2">

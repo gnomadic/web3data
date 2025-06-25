@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
         ],
     };
 
-    const metadataString = JSON.stringify(metadata); // serialize
+    const metadataString = JSON.stringify(metadata); 
     const payload: { verifiableData: string; owner: Address; timestamp: bigint } = {
         verifiableData: metadataString,
         owner,

@@ -4,13 +4,13 @@ import { Address } from 'viem';
 export function useCreateProject() {
 const [returnValue, setReturnValue] = useState<any>(null);
 
-  async function createProject(owner: Address, name: string, description: string) {
+  async function createProject(owner: Address, chainId: number, payload: string) {
     const res = await fetch('/api/createProject', {
       method: 'POST',
       body: JSON.stringify({
-        metadata: { name, description },
+        metadata: payload,
         owner,
-        chainId: 84532, //TODO pass this in so not hardcoded to base sepolia
+        chainId: chainId, //TODO pass this in so not hardcoded to base sepolia
       }),
       headers: { 'Content-Type': 'application/json' },
     });

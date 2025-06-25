@@ -19,7 +19,11 @@ export default function CreateButton() {
     async function handleClick() {
         const name = 'My Project';
         const description = 'An amazing thing onchain';
-        await createProject(address ?? "0x0", name, description);
+        await createProject(address ?? "0x0", 84532, JSON.stringify({
+            name: name, 
+            description: description,
+            contracts: ["0x4803b165381796276c7c211cca649174ba2df81f"]
+        }));
     }
 
 

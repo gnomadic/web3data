@@ -14,6 +14,18 @@ export type Deployment = {
   chainId: number;
 }
 
+export type ProjectMetadata = {
+    name: string;
+    description: string;
+    contracts: Address[];   
+}
+
+export type MetadataRawPayload = {
+    metadata: string;
+    owner: Address;
+    timestamp: bigint;
+}
+
 
 export interface Metric {
     metricType: MetricType;
@@ -26,7 +38,7 @@ export interface MetricSet {
 }
 
 export interface MetricConfig {
-    timeframe? : string | undefined;
+    timeframe? : "7d" | "30d" | "90d" | "1y" | "all";
 }
 
 // export interface DataSource {

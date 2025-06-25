@@ -1,4 +1,11 @@
-// "use client";
+"use client";
+
+import { useReadWeb3Project, useReadWeb3ProjectGetLatestMetadata } from "@/generated";
+import useGetIPFS from "@/hooks/useGetIPFS";
+import useGetMetricData from "@/hooks/useGetMetricData";
+import { MetadataRawPayload, ProjectMetadata } from "@/lib/types/types";
+import { useEffect, useState } from "react";
+import { Address } from "viem";
 
 // import { useProjects } from "@/contexts/ProjectContext";
 // import { Card, CardHeader, CardTitle, CardDescription } from "../ui/card";
@@ -15,11 +22,55 @@
 // import CreateButton from "../CreateButton";
 
 
-// type Props = {
-//     projectAddress: Address;
-// };
+type Props = {
+    projectAddress: Address;
+};
 
-// export default function ProjectDetails({ projectAddress }: Props) {
+export default function ProjectDetails({ projectAddress }: Props) {
+
+    const {data: latestMetadata, isLoading: loadingMetadata, error: errorMetadata} = useReadWeb3ProjectGetLatestMetadata({
+        address: projectAddress,
+        args: [],
+    }); 
+
+
+
+    const {data: ipfs} = useGetIPFS<MetadataRawPayload>(latestMetadata?.cid);
+        const [parsedMetadata, setParsedMetadata] = useState<ProjectMetadata | null>(null);
+
+
+    const {data: metrics} = useGetMetricData(parsedMetadata?.contracts?.[0]);
+
+
+    useEffect(() => {
+        if (ipfs?.metadata) {
+            try {
+                const metadata: ProjectMetadata = JSON.parse(ipfs.metadata);
+                setParsedMetadata(metadata);
+            } catch (error) {
+                console.error("Failed to parse metadata:", error);
+            }
+        }
+    }
+    , [ipfs?.metadata]);
+
+
+    return (
+        <section>
+<div>project is defined at: {projectAddress}</div>
+<div>ipfs cid is: {latestMetadata?.cid}</div>
+<div>ipfs data is: {JSON.stringify(ipfs)}</div>
+<div>ipfs metadata is: {JSON.stringify(ipfs?.metadata)}</div>
+
+<div>ipfs contracts are: {parsedMetadata?.contracts}</div>
+<div>metric data is: {metrics}</div>
+
+        </section>
+
+    );
+
+
+}
 //     //   const { projects, createProject, addContract } = useProjects();
 //     const [modalOpen, setModalOpen] = useState(false);
 
