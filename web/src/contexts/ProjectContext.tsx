@@ -5,7 +5,7 @@ import { useDeployment } from '@/hooks/useDeployment';
 import useGetBatchIPFS from '@/hooks/useGetBatchIPFS';
 import { BatchIPFSResponse, Web3Project } from '@/lib/types/types';
 import React, { createContext, useContext, ReactNode, useEffect, useState } from 'react';
-import { ReadContractErrorType } from 'viem';
+import { Address, ReadContractErrorType } from 'viem';
 
 interface ProjectContextProps {
     projects: Web3Project[];
@@ -13,6 +13,8 @@ interface ProjectContextProps {
     projectsError: boolean;
     projectsErrorMessage: ReadContractErrorType | null;
     updateProjects: () => void;
+        findProject: (address: Address) => Web3Project | null; // Added findProject method
+
 }
 
 const ProjectContext = createContext<ProjectContextProps>({
@@ -21,6 +23,7 @@ const ProjectContext = createContext<ProjectContextProps>({
     projectsError: false,
     projectsErrorMessage: null,
     updateProjects: () => { },
+    findProject: (address: Address) => null, // Default implementation
 });
 
 export const ProjectProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -83,7 +86,10 @@ export const ProjectProvider: React.FC<{ children: ReactNode }> = ({ children })
         setWeb3Projects(updatedProjects);
     }, [ipfs]);
     
-
+    const findProject = (address: string): Web3Project | null => {
+        const project = web3Projects.find((project) => project.projectAddress === address);
+        return project || null;
+    };
 
     return (
         <ProjectContext.Provider value={{
@@ -91,7 +97,8 @@ export const ProjectProvider: React.FC<{ children: ReactNode }> = ({ children })
             projectsLoading: isLoading,
             projectsError: isError,
             projectsErrorMessage: error,
-            updateProjects
+            updateProjects,
+            findProject
         }}>
             {children}
         </ProjectContext.Provider>

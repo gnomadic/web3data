@@ -5,6 +5,7 @@ export type Web3Project = {
     metadata?: MetadataRawPayload | undefined;
     timestamp: bigint;
     metadataCID: string;
+    contracts?: Address[] | undefined;
     // ownerAddress: Address;
     // name: string;
 }
@@ -27,6 +28,7 @@ export type MetadataRawPayload = {
     metadata: string;
     owner: Address;
     timestamp: bigint;
+    contracts: Address[];
 }
 
 export type BatchIPFSResponse = {

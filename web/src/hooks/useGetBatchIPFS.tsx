@@ -6,7 +6,7 @@ async function fetchIPFSBatchData<T>(cids: string): Promise<T> {
         return '' as unknown as T;
     }
     console.log("getting ipfs batch");
-    const response = await fetch(`api/ipfs?cids=${cids}`);
+    const response = await fetch(`/api/ipfs?cids=${cids}`);
     console.log("got ipfs batch");
 
 
