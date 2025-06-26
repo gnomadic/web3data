@@ -12,14 +12,6 @@ const flipside = new Flipside(FLIPSIDE_API_KEY);
 
 export async function fetchFlipsideMetrics(contract: string) {
 
-    // SELECT COUNT(DISTINCT tx_from) as active_users_last_7d
-    // FROM base.core.ez_eth_transactions
-    // WHERE contract_address = LOWER('${contract}')
-    //   AND block_timestamp >= DATEADD('DAY', -7, CURRENT_DATE);
-
-
-
-
   const query = `
     SELECT BLOCK_TIMESTAMP as tx_over_180d
     FROM base.core.fact_transactions
@@ -33,9 +25,9 @@ export async function fetchFlipsideMetrics(contract: string) {
 
   return [
     {
-      id: 'active-users-7d',
-      label: 'Active Users (7d)',
-      value: result.rows[0][0],
+      id: 'transactions-180',
+      label: 'Transactions (180d)',
+      value: result.rows,
     },
   ];
 }

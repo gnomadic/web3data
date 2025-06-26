@@ -43,7 +43,7 @@ export default function ProjectCardList({ openCreateProject }: Props) {
                     </CardHeader>
                 </Card>
                 {projects?.map((project, index) => (
-                    <Link key={index} href={`/project/${project}`}>
+                    <Link key={index} href={`/project/${project.projectAddress}`}>
 
                         <Card
 
@@ -51,8 +51,9 @@ export default function ProjectCardList({ openCreateProject }: Props) {
                         // onClick={() => navigate(`/project/${project.id}`)}
                         >
                             <CardHeader>
-                                <CardTitle>{project}</CardTitle>
+                                <CardTitle>{project.projectAddress}</CardTitle>
                                 <CardDescription>
+                                    {JSON.stringify(project.metadata, null, 2) || "No description provided."}
                                     {/* {project.description || "No description provided."} */}
                                 </CardDescription>
                             </CardHeader>

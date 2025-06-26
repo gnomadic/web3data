@@ -1,14 +1,14 @@
 import {
+  createUseReadContract,
   createUseWriteContract,
   createUseSimulateContract,
-  createUseReadContract,
   createUseWatchContractEvent,
 } from 'wagmi/codegen'
 
 import {
+  createReadContract,
   createWriteContract,
   createSimulateContract,
-  createReadContract,
   createWatchContractEvent,
 } from 'wagmi/codegen'
 
@@ -17,6 +17,24 @@ import {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export const iWeb3ProjectAbi = [
+  {
+    type: 'function',
+    inputs: [],
+    name: 'getLatestMetadata',
+    outputs: [
+      {
+        name: '',
+        internalType: 'struct IWeb3Project.Snapshot',
+        type: 'tuple',
+        components: [
+          { name: 'cid', internalType: 'string', type: 'string' },
+          { name: 'timestamp', internalType: 'uint256', type: 'uint256' },
+          { name: 'signature', internalType: 'bytes', type: 'bytes' },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
   {
     type: 'function',
     inputs: [
@@ -115,7 +133,7 @@ export const web3ProjectAbi = [
     outputs: [
       {
         name: '',
-        internalType: 'struct Web3Project.Snapshot',
+        internalType: 'struct IWeb3Project.Snapshot',
         type: 'tuple',
         components: [
           { name: 'cid', internalType: 'string', type: 'string' },
@@ -133,7 +151,7 @@ export const web3ProjectAbi = [
     outputs: [
       {
         name: '',
-        internalType: 'struct Web3Project.Snapshot',
+        internalType: 'struct IWeb3Project.Snapshot',
         type: 'tuple',
         components: [
           { name: 'cid', internalType: 'string', type: 'string' },
@@ -331,9 +349,23 @@ export const web3ProjectFactoryAbi = [
   },
   {
     type: 'function',
-    inputs: [],
+    inputs: [
+      { name: 'page', internalType: 'uint256', type: 'uint256' },
+      { name: 'pageSize', internalType: 'uint256', type: 'uint256' },
+    ],
     name: 'getProjects',
-    outputs: [{ name: '', internalType: 'address[]', type: 'address[]' }],
+    outputs: [
+      {
+        name: '',
+        internalType: 'struct Web3ProjectFactory.ProjectWithMetadata[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'projectAddress', internalType: 'address', type: 'address' },
+          { name: 'metadataCID', internalType: 'string', type: 'string' },
+          { name: 'timestamp', internalType: 'uint256', type: 'uint256' },
+        ],
+      },
+    ],
     stateMutability: 'view',
   },
   {
@@ -492,6 +524,22 @@ export const web3ProjectFactoryAbi = [
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // React
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link iWeb3ProjectAbi}__
+ */
+export const useReadIWeb3Project = /*#__PURE__*/ createUseReadContract({
+  abi: iWeb3ProjectAbi,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link iWeb3ProjectAbi}__ and `functionName` set to `"getLatestMetadata"`
+ */
+export const useReadIWeb3ProjectGetLatestMetadata =
+  /*#__PURE__*/ createUseReadContract({
+    abi: iWeb3ProjectAbi,
+    functionName: 'getLatestMetadata',
+  })
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link iWeb3ProjectAbi}__
@@ -965,6 +1013,22 @@ export const useWatchWeb3ProjectFactoryProjectCreatedEvent =
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Action
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iWeb3ProjectAbi}__
+ */
+export const readIWeb3Project = /*#__PURE__*/ createReadContract({
+  abi: iWeb3ProjectAbi,
+})
+
+/**
+ * Wraps __{@link readContract}__ with `abi` set to __{@link iWeb3ProjectAbi}__ and `functionName` set to `"getLatestMetadata"`
+ */
+export const readIWeb3ProjectGetLatestMetadata =
+  /*#__PURE__*/ createReadContract({
+    abi: iWeb3ProjectAbi,
+    functionName: 'getLatestMetadata',
+  })
 
 /**
  * Wraps __{@link writeContract}__ with `abi` set to __{@link iWeb3ProjectAbi}__

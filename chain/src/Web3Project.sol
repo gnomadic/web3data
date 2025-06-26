@@ -9,12 +9,6 @@ contract Web3Project is IWeb3Project {
     address public owner;
     address public projectFactory;
 
-    struct Snapshot {
-        string cid;
-        uint256 timestamp;
-        bytes signature;
-    }
-
     Snapshot[] public metadataSnapshots;
     Snapshot[] public metricsSnapshots;
 

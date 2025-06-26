@@ -68,8 +68,36 @@ contract Web3ProjectFactory is IWeb3ProjectFactory, EIP712, Ownable {
         return proxy;
     }
 
-    function getProjects() external view returns (address[] memory) {
-        return projects;
+    struct ProjectWithMetadata {
+        address projectAddress;
+        string metadataCID;
+        uint256 timestamp;
+    }
+
+    function getProjects(
+        uint256 page,
+        uint256 pageSize
+    ) external view returns (ProjectWithMetadata[] memory) {
+        uint256 start = page * pageSize;
+        uint256 end = start + pageSize > projects.length
+            ? projects.length
+            : start + pageSize;
+
+        ProjectWithMetadata[] memory result = new ProjectWithMetadata[](
+            end - start
+        );
+
+        for (uint256 i = start; i < end; i++) {
+            IWeb3Project.Snapshot memory snapshot = IWeb3Project(projects[i])
+                .getLatestMetadata();
+            result[i - start] = ProjectWithMetadata({
+                projectAddress: projects[i],
+                metadataCID: snapshot.cid,
+                timestamp: snapshot.timestamp
+            });
+        }
+
+        return result;
     }
 
     function getVerifier() external view returns (address) {

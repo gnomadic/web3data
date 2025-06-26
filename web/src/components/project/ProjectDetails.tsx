@@ -1,26 +1,11 @@
 "use client";
 
-import { useReadWeb3Project, useReadWeb3ProjectGetLatestMetadata } from "@/generated";
+import {  useReadWeb3ProjectGetLatestMetadata } from "@/generated";
 import useGetIPFS from "@/hooks/useGetIPFS";
 import useGetMetricData from "@/hooks/useGetMetricData";
 import { MetadataRawPayload, ProjectMetadata } from "@/lib/types/types";
 import { useEffect, useState } from "react";
 import { Address } from "viem";
-
-// import { useProjects } from "@/contexts/ProjectContext";
-// import { Card, CardHeader, CardTitle, CardDescription } from "../ui/card";
-// import { Button } from "../ui/button";
-// import { useEffect, useState } from "react";
-// import { useAccount, useWaitForTransactionReceipt } from "wagmi";
-// import { useDeployment } from "@/hooks/useDeployment";
-// import { useCreateProject } from "@/hooks/useCreateProject";
-// import { sign } from "crypto";
-// import { Address, Hex, toBytes, toHex } from "viem";
-// import { useReadIWeb3ProjectFactoryVerifyMetadata,  useReadWeb3ProjectGetLatestMetadata, useWriteWeb3ProjectUpdateMetadata } from "@/generated";
-// import { bigIntReplacer } from "@/lib/utils";
-// import useGetIPFS from "@/hooks/useGetIPFS";
-// import CreateButton from "../CreateButton";
-
 
 type Props = {
     projectAddress: Address;
@@ -63,7 +48,7 @@ export default function ProjectDetails({ projectAddress }: Props) {
 <div>ipfs metadata is: {JSON.stringify(ipfs?.metadata)}</div>
 
 <div>ipfs contracts are: {parsedMetadata?.contracts}</div>
-<div>metric data is: {metrics}</div>
+<div>metric data is: {JSON.stringify(metrics)}</div>
 
         </section>
 
