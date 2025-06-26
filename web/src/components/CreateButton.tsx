@@ -35,7 +35,11 @@ export default function CreateButton() {
                     //  onClick={handleSign}
                     onClick={() => {
                         console.log('returnValue', JSON.stringify(returnValue, null, 2));
-
+                        // if (!returnValue ) {
+                        //     console.error('Invalid return value from createProject');
+                        //     return;
+                        // }
+if (returnValue !== null){
                         createIt({
                             args: [
                                 returnValue.metadataCID as string,
@@ -53,6 +57,7 @@ export default function CreateButton() {
                             address: deploy.Web3ProjectFactory as Address,
                         });
                     }}
+                }}
                 >
 
                     Upload Project </Button>

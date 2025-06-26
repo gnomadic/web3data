@@ -10,20 +10,12 @@ async function fetchIPFSData<T>(cid: string): Promise<T> {
     return response.json() as Promise<T>;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function useGetIPFS<T = any>(cid: string | undefined) {
-    if (!cid) {
-        console.log("no cid provided, returning empty query");
-        return useQuery<T, Error>({
-            queryKey: ['Activities_undefined'],
-            queryFn: () => Promise.resolve('' as unknown as T),
-            // staleTime: process.env.CACHE_TTL ? Number(process.env.CACHE_TTL) : 1000 * 60 * 60 * 24, 
-            //TODO stale time
-        });
-    }
-
-    return useQuery<T, Error>({ 
-        queryKey: ['Activities_' + cid], 
-        queryFn: () => fetchIPFSData<T>(cid),
-        // staleTime: process.env.CACHE_TTL ? Number(process.env.CACHE_TTL) : 1000 * 60 * 60 * 24,
+    return useQuery<T, Error>({
+        queryKey: ['Activities_' + cid],
+        queryFn: () => (cid ? fetchIPFSData<T>(cid) : Promise.resolve('' as unknown as T)),
+        staleTime: 1000 * 60 * 60 * 24,  //TODO staletime
+        enabled: !!cid
     });
 }

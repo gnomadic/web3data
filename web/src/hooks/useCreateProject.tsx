@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Address } from 'viem';
 
 export function useCreateProject() {
-const [returnValue, setReturnValue] = useState<any>(null);
+const [returnValue, setReturnValue] = useState(null);
 
   async function createProject(owner: Address, chainId: number, payload: string) {
     const res = await fetch('/api/createProject', {

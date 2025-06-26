@@ -23,7 +23,10 @@ const ProjectContext = createContext<ProjectContextProps>({
     projectsError: false,
     projectsErrorMessage: null,
     updateProjects: () => { },
-    findProject: (address: Address) => null, // Default implementation
+    findProject: (address: Address) => {
+        console.warn('findProject not implemented for ProjectContext with address: ', address);
+        return  null
+    },
 });
 
 export const ProjectProvider: React.FC<{ children: ReactNode }> = ({ children }) => {

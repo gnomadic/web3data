@@ -18,6 +18,8 @@ async function fetchIPFSBatchData<T>(cids: string): Promise<T> {
     return result as T;
 }
 
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function useGetBatchIPFS<T = any>(cid: string[] | undefined) {
     const cids = Array.isArray(cid) ? cid.join(',') : cid;
 

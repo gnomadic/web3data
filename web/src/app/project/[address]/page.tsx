@@ -1,22 +1,26 @@
 import ProjectDetails from "@/components/project/ProjectDetails";
+import { use } from "react";
 import { Address } from "viem";
 
-type ProjectProps = Promise<{
-  params: {
-    address: string;
-  };
-}>;
 
-export default async function Project({ params }: Awaited<ProjectProps>) {
+type Params = Promise<{ address: string }>
 
-  const parameters = await params;
-  const projectAddress =  parameters.address as Address;
+export default function Project(props: {
+  params: Params
+  
+}) {
+
+  
+    const params = use(props.params)
+
+    const projectAddress = params.address as Address;
+
 
   return (
     <section className="mx-2 md:mx-8 mt-8">
       {/* <div>{projectAddress}</div> */}
       <ProjectDetails projectAddress={projectAddress} />
-      
+
 
     </section>
   );

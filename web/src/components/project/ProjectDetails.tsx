@@ -1,18 +1,12 @@
 "use client";
 
 import { useProjects } from "@/contexts/ProjectContext";
-import { useReadWeb3ProjectGetLatestMetadata } from "@/generated";
 import useGetMetricData from "@/hooks/useGetMetricData";
-import { MetadataRawPayload, ProjectMetadata } from "@/lib/types/types";
 import { bigIntReplacer } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { Address } from "viem";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { format } from 'date-fns';
-type Props = {
-    projectAddress: Address;
-};
-import React from 'react';
 import {
     LineChart,
     Line,
@@ -23,22 +17,18 @@ import {
     CartesianGrid,
 } from 'recharts';
 
+type Props = {
+    projectAddress: Address;
+};
+
 export default function ProjectDetails({ projectAddress }: Props) {
-
-    // const {data: latestMetadata, isLoading: loadingMetadata, error: errorMetadata} = useReadWeb3ProjectGetLatestMetadata({
-    //     address: projectAddress,
-    //     args: [],
-    // }); 
-
 
     const { findProject } = useProjects();
     const project = findProject(projectAddress);
-    // console.log(project);
-
 
     const { data: metrics } = useGetMetricData(project?.metadata?.contracts?.[0]);
 
-    type MetricPoint = [string, number];
+    // type MetricPoint = [string, number];
     // Group and count transactions per day
     const formatData = (data: unknown): { date: string; count: number }[] => {
         if (!Array.isArray(data)) return [];
@@ -66,10 +56,6 @@ export default function ProjectDetails({ projectAddress }: Props) {
         setChartData(chartData);
 
     }, [metrics]);
-
-
-
-
 
     return (
         <section>
@@ -103,6 +89,5 @@ export default function ProjectDetails({ projectAddress }: Props) {
                 </CardContent>
             </Card>
         </section>
-
     );
 }

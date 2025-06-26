@@ -15,10 +15,8 @@ export const useDeployment = () => {
   useEffect(() => {
     const chainName = chain?.name.toLowerCase().replaceAll(' ', '') ?? defaultChain;
     console.log('Network Change detected to: ' + chainName);
-    chain?.name && Deployments.hasOwnProperty(chainName)
-      ? setDeploy(Deployments[chainName])
-      : setDeploy(Deployments[defaultChain]);
-
+    const validChain = Deployments.hasOwnProperty(chainName) ? Deployments[chainName] : Deployments[defaultChain] ;
+    setDeploy(validChain)
   }, [chain, deploy?.Web3ProjectFactory]);
 
   // console.log("returning deployment: ", deploy.chain)

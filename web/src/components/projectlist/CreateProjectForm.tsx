@@ -13,7 +13,7 @@ export function CreateProjectForm({ open, onOpenChange, onCreate }: Props) {
 
   const [name, setName] = useState("test");
   const [description, setDescription] = useState("test description");
-  const [contracts, setContracts] = useState<Address[]>(["0x4803b165381796276c7c211cca649174ba2df81f"]);
+  const [contracts] = useState<Address[]>(["0x4803b165381796276c7c211cca649174ba2df81f"]);
   const [error, setError] = useState("");
 
   

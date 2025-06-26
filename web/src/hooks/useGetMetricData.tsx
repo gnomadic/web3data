@@ -15,8 +15,8 @@ async function fetchData<T>(contract: string): Promise<T> {
     return data as T;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function useGetMetricData<T = any>(contract: string | undefined) {
-
     return useQuery<T, Error>({
         queryKey: ['metrics_' + contract],
         queryFn: () => (contract && contract.length > 0 ? fetchData<T>(contract) : Promise.resolve('' as unknown as T)),
