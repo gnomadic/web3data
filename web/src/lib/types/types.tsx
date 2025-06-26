@@ -2,13 +2,26 @@ import { Address, Chain, Transport } from "viem";
 
 export type Web3Project = {
     projectAddress: Address;
-    metadata?: MetadataRawPayload | undefined;
+    metadata?: ProjectMetadata | undefined;
     timestamp: bigint;
     metadataCID: string;
     contracts?: Address[] | undefined;
     // ownerAddress: Address;
     // name: string;
 }
+
+export type CreateProjectResponse = {
+    metadataCID: string;
+    signature: string;
+    timestamp: number;
+    payload: {
+        verifiableData: string;
+        owner: Address;
+        timestamp: number;
+    };
+}
+
+ 
 
 export type Deployment = {
     Web3ProjectFactory: Address;
@@ -23,6 +36,9 @@ export type ProjectMetadata = {
     description: string;
     contracts: Address[];
 }
+
+
+
 
 export type MetadataRawPayload = {
     metadata: string;

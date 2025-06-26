@@ -70,7 +70,7 @@ export const ProjectProvider: React.FC<{ children: ReactNode }> = ({ children })
         //     ...project,
         //     metadata: ipfs[index] ? JSON.parse(ipfs[index]) : null,
         // }));
-        const updatedProjects = web3Projects.map((project) => {
+        const updatedProjects = web3Projects?.map((project) => {
             const cidIndex = ipfs.cids.findIndex((cid) => cid === project.metadataCID);
             console.log('CID Index:', cidIndex, 'for project:', project.projectAddress);
             console.log(ipfs.content[cidIndex]);
