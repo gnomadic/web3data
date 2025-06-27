@@ -37,9 +37,6 @@ export type ProjectMetadata = {
     contracts: Address[];
 }
 
-
-
-
 export type MetadataRawPayload = {
     metadata: string;
     owner: Address;

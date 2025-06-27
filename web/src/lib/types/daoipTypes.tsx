@@ -26,13 +26,20 @@
 //     ]
 // }
 
+import { Address } from "viem"
+
+export type DAOIP5ProjectSocial = {
+    name: string,
+    value: string
+}
+
 
 export type DAOIP5ProjectMetadata = {
     "@context": "http://www.daostar.org/schemas",
     "name": string,
     "type": "Project",
     "description": string,
-    "contentURI": string,
+    "contentURI"?: string,
     "email"?: string,
     "membersURI"?: string,
     "attestationIssuersURI"?: string,
@@ -40,8 +47,7 @@ export type DAOIP5ProjectMetadata = {
     "image"?: string,
     "coverImage"?: string,
     "licenseURI"?: string,
-    "socials"?: Array<{
-        name: string,
-        value: string
-    }>
+    "socials"?: DAOIP5ProjectSocial[],
+    //addendeum
+    "contracts"?: Address[]
 }

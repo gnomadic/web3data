@@ -5,7 +5,6 @@ import { Card, CardHeader, CardTitle, CardDescription } from "../ui/card";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import ProjectCard from "./ProjectCard";
-import ProjectCard2 from "./ProjectCard2";
 
 
 type Props = {
@@ -31,7 +30,7 @@ export default function ProjectCardList({ openCreateProject }: Props) {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {projects?.map((project, index) => (
-                    <ProjectCard2 key={index} project={project} />
+                    <ProjectCard key={index} project={project} />
                 ))}
 
             </div>
