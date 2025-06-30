@@ -10,11 +10,14 @@ export default defineConfig({
   contracts: [
 
   ],
+
   plugins: [
     foundry({
       project: '../chain',
       include: [
+        'IWeb3Project.sol/**',
         'Web3Project.sol/**',
+        'IWeb3ProjectFactory.sol/**',
         'Web3ProjectFactory.sol/**',
       ],
     }),

@@ -1,3 +1,59 @@
+import { Address, Chain, Transport } from "viem";
+import { DAOIP5ProjectMetadata } from "./daoipTypes";
+
+export type Web3Project = {
+    projectAddress: Address;
+    metadata?: DAOIP5ProjectMetadata | undefined;
+    timestamp: bigint;
+    metadataCID: string;
+    contracts?: Address[] | undefined;
+    // ownerAddress: Address;
+    // name: string;
+}
+
+export type CreateProjectResponse = {
+    metadataCID: string;
+    signature: string;
+    timestamp: number;
+    payload: {
+        verifiableData: string;
+        owner: Address;
+        timestamp: number;
+    };
+}
+
+
+
+export type Deployment = {
+    Web3ProjectFactory: Address;
+    scan?: string | undefined;
+    viemChain: Chain;
+    viemTransport: Transport;
+    chainId: number;
+}
+
+// export type ProjectMetadata = {
+//     name: string;
+//     description: string;
+//     contracts: Address[];
+// }
+
+export type MetadataRawPayload = {
+    metadata: string;
+    owner: Address;
+    timestamp: bigint;
+    contracts: Address[];
+}
+
+export type BatchIPFSResponse = {
+    content: MetadataRawPayload[],
+    cids: string[]
+}
+
+export type MetricPoint = { date: string; value: string | number };
+
+
+
 export interface Metric {
     metricType: MetricType;
     value: number;
@@ -9,7 +65,7 @@ export interface MetricSet {
 }
 
 export interface MetricConfig {
-    timeframe? : string | undefined;
+    timeframe?: "7d" | "30d" | "90d" | "1y" | "all";
 }
 
 // export interface DataSource {

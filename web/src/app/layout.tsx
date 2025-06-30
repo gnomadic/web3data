@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${mOne.variable} ${sourceCode.variable} antialiased`}
+        className={`${mOne.variable} ${sourceCode.variable} antialiased justify-center`}
       >
         <Providers>
 
