@@ -121,7 +121,7 @@ export default function ProjectDetails({ projectAddress }: Props) {
       <div className="flex items-center justify-center">
         <div className="relative mx-auto">
           <BannerImage size={1000} />
-          <div className=" z-50 md:left-8 absolute md:bottom-0 md:translate-y-1/2 md:translate-x-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div className=" z-10 md:left-8 absolute md:bottom-0 md:translate-y-1/2 md:translate-x-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <Avatar fallbackName={project?.metadata?.name} />
           </div>
         </div>
