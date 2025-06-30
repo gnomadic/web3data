@@ -1,19 +1,18 @@
 
-import { ProjectMetadata } from "@/lib/types/types";
+import { DAOIP5ProjectMetadata } from "@/lib/types/daoipTypes";
 import React, { useState } from "react";
-import { Address } from "viem";
 
 type Props = {
   open: boolean;
   onOpenChange: (val: boolean) => void;
-  onCreate: (metadata: ProjectMetadata) => void;
+  onCreate: (metadata: DAOIP5ProjectMetadata) => void;
 };
 
 export function CreateProjectForm({ open, onOpenChange, onCreate }: Props) {
 
   const [name, setName] = useState("test");
   const [description, setDescription] = useState("test description");
-  const [contracts] = useState<Address[]>(["0x4803b165381796276c7c211cca649174ba2df81f"]);
+  // const [contracts] = useState<Address[]>(["0x4803b165381796276c7c211cca649174ba2df81f"]);
   const [error, setError] = useState("");
 
   
@@ -25,15 +24,17 @@ export function CreateProjectForm({ open, onOpenChange, onCreate }: Props) {
       return;
     }
     onCreate({
+      "@context": "http://www.daostar.org/schemas",
+      "type": "Project",
       name: name.trim(),
       description: description.trim(),
-      contracts: contracts
+      contracts: [{chainId: 84532, address: "0x4803b165381796276c7c211cca649174ba2df81f", name: "Web3 Project Factory"}, ]
     });
 
-    // }});
-    setName("");
-    setDescription("");
-    setError("");
+
+    // setName("");
+    // setDescription("");
+    // setError("");
   }
 
   if (!open) return null;

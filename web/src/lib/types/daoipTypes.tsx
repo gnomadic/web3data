@@ -33,6 +33,12 @@ export type DAOIP5ProjectSocial = {
     value: string
 }
 
+export type ProjectContract = {
+    chainId: number,
+    address: Address,
+    name?: string
+}
+
 
 export type DAOIP5ProjectMetadata = {
     "@context": "http://www.daostar.org/schemas",
@@ -49,5 +55,5 @@ export type DAOIP5ProjectMetadata = {
     "licenseURI"?: string,
     "socials"?: DAOIP5ProjectSocial[],
     //addendeum
-    "contracts"?: Address[]
+    "contracts"?: ProjectContract[]
 }

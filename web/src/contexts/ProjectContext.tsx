@@ -77,7 +77,7 @@ export const ProjectProvider: React.FC<{ children: ReactNode }> = ({ children })
             console.log(ipfs.content[cidIndex]?.metadata);
             return {
                 ...project,
-                metadata: cidIndex !== -1 ? JSON.parse(ipfs.content[cidIndex]?.metadata) : undefined,
+                metadata: cidIndex !== -1 ? JSON.parse(ipfs.content[cidIndex]?.metadata) : {},
             };
             // return {
             //     ...project,

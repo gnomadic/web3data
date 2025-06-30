@@ -22,7 +22,7 @@ export default function CreateButton() {
         await createProject(address ?? "0x0", 84532, JSON.stringify({
             name: name,
             description: description,
-            contracts: ["0x4803b165381796276c7c211cca649174ba2df81f"]
+            contracts: [{chain: 84532, address: "0x4803b165381796276c7c211cca649174ba2df81f", name: "Web3 Project Factory"}, ]
         }));
     }
 

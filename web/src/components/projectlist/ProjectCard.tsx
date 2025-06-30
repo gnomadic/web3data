@@ -1,19 +1,19 @@
 import type React from "react"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Globe } from "lucide-react"
 import Link from "next/link"
 import { Web3Project } from "@/lib/types/types"
+import { Avatar } from "../global/Avatar"
 
 interface ProjectCardProps {
-    icon?: React.ReactNode
+    // icon?: React.ReactNode
     tags?: string[]
     status?: "active" | "completed" | "in-progress"
     project : Web3Project
 }
 
 export default function ProjectCard({
-    icon = <Globe className="w-8 h-8" />,
+    // icon = <Globe className="w-8 h-8" />,
     tags = ["React", "Next.js", "TypeScript", "Tailwind"],
     status = "active",
     project
@@ -38,7 +38,9 @@ export default function ProjectCard({
                 <CardHeader className="space-y-4">
                     <div className="flex items-start justify-between">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-muted rounded-lg">{icon}</div>
+                            {/* <div className="p-2 bg-muted">{icon}</div> */}
+                                        <Avatar fallbackName={project?.metadata?.name} />
+                            
                             <div className="space-y-1">
                                 <CardTitle className="text-xl font-semibold line-clamp-1 overflow-ellipsis">{project.metadata?.name}</CardTitle>
                                 <Badge variant="outline" className={`text-xs ${getStatusColor(status)}`}>

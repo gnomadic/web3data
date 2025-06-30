@@ -12,6 +12,7 @@ export const Deployments: { [key: string]: Deployment } = {
     },
     web3data: {
         Web3ProjectFactory: '0x0',
+        scan: "https://sepolia.basescan.org/address/",
         viemChain: localhost,
         viemTransport: http(),
         chainId: 0
@@ -22,4 +23,9 @@ export function findByChainId(chainId: number): Deployment {
     const found =  Object.values(Deployments).find(deployment => deployment.chainId === chainId);
 
     return found || Deployments.web3data;
+}
+
+export function getScanURL(chainId: number, address: string): string {
+    const deployment = findByChainId(chainId);
+    return `${deployment.scan}${address}`;
 }

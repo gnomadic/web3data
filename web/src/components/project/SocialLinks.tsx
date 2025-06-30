@@ -12,13 +12,13 @@ type SocialLink = {
 };
 
 // TODO update social icons
-export const SocialLinks = ({ socials }: { socials: DAOIP5ProjectSocial[] }) => {
+export const SocialLinks = ({ socials }: { socials: DAOIP5ProjectSocial[] | undefined }) => {
   const socialLinks: SocialLink[] = [
-    { key: 'github', url: socials.find(s => s.value === 'github')?.value, name: 'GitHub', icon: <Github className="size-4" /> },
-    { key: 'twitter', url: socials.find(s => s.value === 'twitter')?.value, name: 'Twitter', icon: <Twitter className="size-4" /> },
-    { key: 'website', url: socials.find(s => s.value === 'website')?.value, name: 'Website', icon: <Globe className="size-4" /> },
-    { key: 'discord', url: socials.find(s => s.value === 'discord')?.value, name: 'Discord', icon: <MessageSquare className="size-4" /> },
-    { key: 'farcaster', url: socials.find(s => s.value === 'farcaster')?.value, name: 'Farcaster', icon: null },
+    { key: 'github', url: socials?.find(s => s.value === 'github')?.value, name: 'GitHub', icon: <Github className="size-4" /> },
+    { key: 'twitter', url: socials?.find(s => s.value === 'twitter')?.value, name: 'Twitter', icon: <Twitter className="size-4" /> },
+    { key: 'website', url: socials?.find(s => s.value === 'website')?.value, name: 'Website', icon: <Globe className="size-4" /> },
+    { key: 'discord', url: socials?.find(s => s.value === 'discord')?.value, name: 'Discord', icon: <MessageSquare className="size-4" /> },
+    { key: 'farcaster', url: socials?.find(s => s.value === 'farcaster')?.value, name: 'Farcaster', icon: null },
   ];
 
   const availableLinks = socialLinks.filter(link => link.url);

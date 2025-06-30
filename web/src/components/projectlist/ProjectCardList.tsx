@@ -1,9 +1,7 @@
 "use client";
 
 import { useProjects } from "@/contexts/ProjectContext";
-import { Card, CardHeader, CardTitle, CardDescription } from "../ui/card";
 import { Button } from "../ui/button";
-import Link from "next/link";
 import ProjectCard from "./ProjectCard";
 
 
@@ -25,7 +23,7 @@ export default function ProjectCardList({ openCreateProject }: Props) {
                     variant={"secondary"}
                     onClick={openCreateProject}
                 >
-                    + New Project
+                    + Add my Project
                 </Button>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

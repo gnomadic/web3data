@@ -17,6 +17,7 @@ export async function GET(request: NextRequest) {
 
     try {
         const metrics = await getMetricsForContract(address);
+        console.log('Metrics retrieved:', metrics);
         return NextResponse.json({ metrics });
     } catch (error) {
         console.error('Metrics error:', error);
