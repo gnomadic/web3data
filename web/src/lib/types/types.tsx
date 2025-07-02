@@ -1,5 +1,6 @@
 import { Address, Chain, Transport } from "viem";
 import { DAOIP5ProjectMetadata } from "./daoipTypes";
+import { z } from 'zod';
 
 export type Web3Project = {
     projectAddress: Address;
@@ -79,3 +80,13 @@ export enum MetricType {
     GITHUB_STARS = 'GITHUB_STARS',
     GITHUB_FORKS = 'GITHUB_FORKS',
 }
+
+
+export const MetricInputSchema = z.object({
+  project: z.string(),
+  contract: z.string().toLowerCase(),
+  chain_id: z.number(),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+  metrics: z.record(z.union([z.number(), z.string()])),
+  source: z.string().optional(),
+});
